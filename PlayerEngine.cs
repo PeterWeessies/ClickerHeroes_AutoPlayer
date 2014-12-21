@@ -292,21 +292,25 @@ namespace clickerheroes.autoplayer
                     if (desiredLevel - heroLevel >= 100 && hs.Hero.GetCostToLevel(heroLevel + 100, heroLevel) < currentMoney)
                     {
                         AddAction(new Action(pt, Modifiers.CTRL));
+                        currentMoney -= hs.Hero.GetCostToLevel(heroLevel + 100, heroLevel);
                         heroLevel += 100;
                     }
                     else if (desiredLevel - heroLevel >= 25 && hs.Hero.GetCostToLevel(heroLevel + 25, heroLevel) < currentMoney)
                     {
                         AddAction(new Action(pt, Modifiers.Z));
+                        currentMoney -= hs.Hero.GetCostToLevel(heroLevel + 25, heroLevel);
                         heroLevel += 25;
                     }
                     else if (desiredLevel - heroLevel >= 10 && hs.Hero.GetCostToLevel(heroLevel + 10, heroLevel) < currentMoney)
                     {
                         AddAction(new Action(pt, Modifiers.SHIFT));
+                        currentMoney -= hs.Hero.GetCostToLevel(heroLevel + 10, heroLevel);
                         heroLevel += 10;
                     }
                     else
                     {
                         AddAction(new Action(pt, 0));
+                        currentMoney -= hs.Hero.GetCostToLevel(heroLevel + 1, heroLevel);
                         heroLevel++;
                     }
                 }
