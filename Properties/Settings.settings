@@ -1,0 +1,87 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="autoclick.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="taskList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">// Buy King Midas and Broyl for some extra starting gold
+15, 125, 5, false, true
+13, 100, 4, false, true
+// Get some starting power from Atlas
+27, 1, -1, true, true
+27, 10, 0
+27, 30, 1
+27, 50, 2
+27, 100, 3, false, true
+
+// Level important low level ancients and get upgrades
+0, 150, 6
+1, 100, 4
+2, 100, 4
+4, 100, 4
+5, 100, 4
+7, 75, 3
+9, 100, 4
+11, 100, 4
+12, 100, 4
+14, 100, 4
+16, 125, 4
+17, 75, 3
+19, 75, 2
+20, 100, 4
+22, 125, 4
+23, 100 ,4
+24, 75, 3
+25, 75, 3
+
+// Continue progressing Atlas
+27, 500, -1, false, true
+
+// Start progressing Terra
+28, 1, -1
+28, 10, 0
+28, 25, 1
+28, 50, 2
+28, 100, 3, false, true
+28, 500, -1, false, true
+
+// Start progressing Phthalo
+29, 1, -1
+29, 10, 0
+29, 25, 1
+29, 50, 2
+29, 100, 3, false, true
+29, 500, -1, false, true
+
+// Start progressing Banana
+30, 1, -1
+30, 10, 0
+30, 25, 1
+30, 50, 2
+30, 100, 3, false, true
+30, 500, -1, false, true
+
+// Start progressing Lilin
+31, 1, -1
+31, 10, 0
+31, 25, 1
+31, 50, 2
+31, 100, 3, false, true
+31, 1500, -1, false, true
+
+// Time to ascend Lilin reached 1500)
+Ascend</Value>
+    </Setting>
+    <Setting Name="top" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="bot" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="left" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="right" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

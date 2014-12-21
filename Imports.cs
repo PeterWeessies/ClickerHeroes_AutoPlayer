@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace clickerheroes.autoplayer
+{
+    /// <summary>
+    /// Defines constants and API calls that are imported from Windows. See MSDN docs for more info.
+    /// </summary>
+    class Imports
+    {
+        public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        public const int MOUSEEVENTF_LEFTUP = 0x04;
+        public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        public const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+        /// <summary>
+        /// Struct representing a point.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public static implicit operator Point(POINT point)
+            {
+                return new Point(point.X, point.Y);
+            }
+        }
+
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
+
+        public const uint KEYEVENTF_KEYUP = 0x02;
+        public const uint VK_SHIFT = 0x10;
+        public const uint VK_CONTROL = 0x11;
+        public const uint VK_Z = 0x5A;
+        public const uint VK_1 = 0x31;
+        public const uint VK_2 = 0x32;
+        public const uint VK_3 = 0x33;
+        public const uint VK_4 = 0x34;
+        public const uint VK_5 = 0x35;
+        public const uint VK_6 = 0x36;
+        public const uint VK_7 = 0x37;
+        public const uint VK_8 = 0x38;
+        public const uint VK_9 = 0x39;
+
+        [DllImport("user32.dll")]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+    }
+}
