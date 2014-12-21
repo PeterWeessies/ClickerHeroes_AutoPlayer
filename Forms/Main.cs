@@ -242,6 +242,8 @@ namespace clickerheroes.autoplayer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            MessageBox.Show("HI!");
+
             // Load Play Area
             top = Properties.Settings.Default.top;
             bot = Properties.Settings.Default.bot;
