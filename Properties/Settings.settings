@@ -3,16 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="top" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">228</Value>
     </Setting>
     <Setting Name="bot" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1027</Value>
     </Setting>
     <Setting Name="left" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">96</Value>
     </Setting>
     <Setting Name="right" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1516</Value>
     </Setting>
     <Setting Name="taskList" Type="System.String" Scope="User">
       <Value Profile="(Default)">// Level low level ancients and get upgrades

@@ -25,7 +25,7 @@ namespace clickerheroes.autoplayer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("228")]
         public int top {
             get {
                 return ((int)(this["top"]));
@@ -37,7 +37,7 @@ namespace clickerheroes.autoplayer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1027")]
         public int bot {
             get {
                 return ((int)(this["bot"]));
@@ -49,7 +49,7 @@ namespace clickerheroes.autoplayer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("96")]
         public int left {
             get {
                 return ((int)(this["left"]));
@@ -61,7 +61,7 @@ namespace clickerheroes.autoplayer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1516")]
         public int right {
             get {
                 return ((int)(this["right"]));

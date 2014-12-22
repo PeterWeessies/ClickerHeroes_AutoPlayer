@@ -133,9 +133,11 @@ namespace clickerheroes.autoplayer
                     return;
                 }
 
-                double d = OCREngine.GetBlobDensity(lb, r, new Color[] { Color.FromArgb(39, 166, 10) });
-                double db = OCREngine.GetBlobDensity(lb, r, new Color[] { Color.FromArgb(7, 33, 1) });
-                if (d > 0.003 | db > 0.003)
+                double d = OCREngine.GetBlobDensity(lb, r, new Color[] { Color.FromArgb(39, 166, 10), // Normal
+                                                                         Color.FromArgb(7, 33, 1), // Bugged out
+                                                                       });
+
+                if (d > 0.003)
                 {
                     UpgradeBitfield |= (Int16)(1 << i);
                 }
