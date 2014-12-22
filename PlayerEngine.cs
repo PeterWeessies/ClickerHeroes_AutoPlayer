@@ -46,12 +46,32 @@ namespace clickerheroes.autoplayer
         }
     }
 
-     /// <summary>
+    /// <summary>
     /// A special task, which will buy all upgrades
     /// </summary>
-    class BuyAllTask : Task
+    class BuyAllÙpgradesTask : Task
     {
-        public BuyAllTask() : base(-1, -1, -1, false)
+        public BuyAllÙpgradesTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will activate the active playstyle
+    /// </summary>
+    class ActiveTask : Task
+    {
+        public ActiveTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will activate the idle playstyle
+    /// </summary>
+    class IdleTask : Task
+    {
+        public IdleTask() : base(-1, -1, -1, false)
         {
         }
     }
@@ -116,6 +136,8 @@ namespace clickerheroes.autoplayer
     class PlayerEngine
     {
         private static List<Task> Tasks = new List<Task>();
+        private static bool autoClick = false;
+        private static bool useSkils = false;
 
         public static string ParseTasklist(string s)
         {
@@ -130,13 +152,26 @@ namespace clickerheroes.autoplayer
                 if (str.Trim().Equals("Ascend"))
                 {
                     Tasks.Add(new Task(19, 150, -1, false));
+                    Tasks.Add(new IdleTask());
                     Tasks.Add(new AscendTask());
                     continue;
                 }
 
                 if (str.Trim().Equals("BuyAllUpgrades"))
                 {
-                    Tasks.Add(new BuyAllTask());
+                    Tasks.Add(new BuyAllÙpgradesTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("Active"))
+                {
+                    Tasks.Add(new ActiveTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("Idle"))
+                {
+                    Tasks.Add(new IdleTask());
                     continue;
                 }
 
@@ -434,9 +469,12 @@ namespace clickerheroes.autoplayer
                 }
                 else
                 {
-                    Cursor.Position = GameEngine.GetClickArea();
+                    if (autoClick)
+                    {
+                        Cursor.Position = GameEngine.GetClickArea();
 
-                    Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
+                        Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
+                    }
                 }
             }
         }
@@ -447,8 +485,11 @@ namespace clickerheroes.autoplayer
         /// <param name="keycode"></param>
         public static void PressKey(uint keycode)
         {
-            Imports.keybd_event((byte)keycode, 0, 0, 0);
-            Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            if (useSkils)
+            {
+                Imports.keybd_event((byte)keycode, 0, 0, 0);
+                Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            }
         }
 
         private static int nextTaskToPerform = 0;
@@ -488,11 +529,27 @@ namespace clickerheroes.autoplayer
                 return "Ascending";
             }
 
-            if (nextTask is BuyAllTask)
+            if (nextTask is BuyAllÙpgradesTask)
             {
                 BuyAllUpgrades();
                 nextTaskToPerform++;
                 return "Buying all upgrades";
+            }
+
+            if (nextTask is ActiveTask)
+            {
+                autoClick = true;
+                useSkils = true;
+                nextTaskToPerform++;
+                return "Going Active";
+            }
+
+            if (nextTask is IdleTask)
+            {
+                autoClick = false;
+                useSkils = false;
+                nextTaskToPerform++;
+                return "Going Idle";
             }
 
             VerifyTask vt = nextTask as VerifyTask;

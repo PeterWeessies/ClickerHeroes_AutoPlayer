@@ -530,13 +530,8 @@ namespace clickerheroes.autoplayer
             {
                 return true;
             }
-            else if (GameEngine.GetHeroes() != null)
-            {
-                return true;
-            }
 
             return false;
-
         }
 
         /// <summary>

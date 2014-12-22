@@ -94,20 +94,20 @@ namespace clickerheroes.autoplayer
             }
         }
 
-        public void DrawBoundingRectangle(Bitmap b, Rectangle r)
-        {
-            for (int x = r.Left; x <= r.Right; x++)
-            {
-                b.SetPixel(x, r.Top, Color.Red);
-                b.SetPixel(x, r.Bottom, Color.Red);
-            }
+        //public void DrawBoundingRectangle(Bitmap b, Rectangle r)
+        //{
+        //    for (int x = r.Left; x <= r.Right; x++)
+        //    {
+        //        b.SetPixel(x, r.Top, Color.Red);
+        //        b.SetPixel(x, r.Bottom, Color.Red);
+        //    }
 
-            for (int y = r.Top; y <= r.Bottom; y++)
-            {
-                b.SetPixel(r.Left, y, Color.Red);
-                b.SetPixel(r.Right, y, Color.Red);
-            }
-        }
+        //    for (int y = r.Top; y <= r.Bottom; y++)
+        //    {
+        //        b.SetPixel(r.Left, y, Color.Red);
+        //        b.SetPixel(r.Right, y, Color.Red);
+        //    }
+        //}
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -283,13 +283,18 @@ namespace clickerheroes.autoplayer
         /// <param name="e"></param>
         private void useskills_Tick(object sender, EventArgs e)
         {
+            // Dark Ritual
             PlayerEngine.PressKey(Imports.VK_6);
+
+            // Golden Clicks
             PlayerEngine.PressKey(Imports.VK_8);
+            PlayerEngine.PressKey(Imports.VK_5);
             PlayerEngine.PressKey(Imports.VK_4);
+
+            // DPS
             PlayerEngine.PressKey(Imports.VK_1);
             PlayerEngine.PressKey(Imports.VK_2);
             PlayerEngine.PressKey(Imports.VK_3);
-            PlayerEngine.PressKey(Imports.VK_5);
             PlayerEngine.PressKey(Imports.VK_7);
 
             if (!GameEngine.IsProgressModeOn())
