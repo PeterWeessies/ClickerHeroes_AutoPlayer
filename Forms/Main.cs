@@ -298,19 +298,6 @@ namespace clickerheroes.autoplayer
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Text box to the left: This is the task list. Put in the order in which you want to level heroes and buy upgrades. The format is (Hero, Level, Upgrades, Wait, Verify). For hero, Cid = 0, Treebeast = 1, etc. For level, this is the minimum level you want to raise it to. For upgrades, 0 = buy the 1st upgrade, 1 = buy the 1st and 2nd upgrades, etc. Set wait to true if you want to wait until you have enough money to buy all levels before leveling. Set verify to true if you want to verify the hero's level (will be slower but will prevent under-leveling heroes)");
-            MessageBox.Show("Once the autoplayer starts, you won't be able to edit the task list anymore");
-            MessageBox.Show("Test Mode: Set to true if you want the program to read your money and heroes on screen, but don't want it to click anything. Use it to test that the money and heroes are being read correctly.");
-            MessageBox.Show("Autoclick only: only clicks the current monsters, and doesn't use any skills or buy anything");
-            MessageBox.Show("Log output: If enabled, will write some output to the app log folder");
-            MessageBox.Show("Dogcog Level: Your level of dogcog. If you don't know what this is, it's probably 0 for you.");
-            MessageBox.Show("How to start: click 'start' and put your mouse in the upper-left corner of your game area (but don't click anything). Press spacebar. Then go to upper-right corner and press spacebar again. Then do lower-left and lower-right corner. Pressing start again will start the autoplayer");
-            MessageBox.Show("While the autoplayer is playing, press CTRL-SHIFT-D to stop it. This is important, because it's the only way to stop it while it's playing (CTRL-SHIFT-D will start it again after this)");
-            MessageBox.Show("Important: the program was only tested on a game area resolution of 1422x800. Other resolutions may have problems");
-        }
-
         private void clickerHeroesPositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clickerHeroesPositionForm.ShowDialog(this);
