@@ -129,11 +129,12 @@ namespace clickerheroes.autoplayer
 
                 if (str.Trim().Equals("Ascend"))
                 {
+                    Tasks.Add(new Task(19, 150, -1, false));
                     Tasks.Add(new AscendTask());
                     continue;
                 }
 
-                if (str.Trim().Equals("BuyAll"))
+                if (str.Trim().Equals("BuyAllUpgrades"))
                 {
                     Tasks.Add(new BuyAllTask());
                     continue;
@@ -361,7 +362,7 @@ namespace clickerheroes.autoplayer
                 Point upgradeButton;
                 if (hs.Hero.UpgradeCosts[desiredUpgrade] < currentMoney && hs.GetUpgradeButton(out upgradeButton, desiredUpgrade))
                 {
-                    AddAction(new Action(upgradeButton, 0), 3);
+                    AddAction(new Action(upgradeButton, 0));
                     return false;
                 }
             }
@@ -397,43 +398,35 @@ namespace clickerheroes.autoplayer
                             {
                                 case Modifiers.CTRL:
                                     Imports.keybd_event((byte)Imports.VK_CONTROL, 0, 0, 0);
-                                    Thread.Sleep(20);
                                     break;
                                 case Modifiers.SHIFT:
                                     Imports.keybd_event((byte)Imports.VK_SHIFT, 0, 0, 0);
-                                    Thread.Sleep(20);
                                     break;
                                 case Modifiers.Z:
                                     Imports.keybd_event((byte)Imports.VK_Z, 0, 0, 0);
-                                    Thread.Sleep(20);
                                     break;
                                 default:
                                     break;
                             }
 
-                            Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN, (uint)nextAction.p.X, (uint)nextAction.p.Y, 0, 0);
-                            Thread.Sleep(20);
-                            Imports.mouse_event(Imports.MOUSEEVENTF_LEFTUP, (uint)nextAction.p.X, (uint)nextAction.p.Y, 0, 0);
+                            Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)nextAction.p.X, (uint)nextAction.p.Y, 0, 0);
 
                             switch (nextAction.modifiers)
                             {
                                 case Modifiers.CTRL:
-                                    Thread.Sleep(20);
                                     Imports.keybd_event((byte)Imports.VK_CONTROL, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
                                     break;
                                 case Modifiers.SHIFT:
-                                    Thread.Sleep(20);
                                     Imports.keybd_event((byte)Imports.VK_SHIFT, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
                                     break;
                                 case Modifiers.Z:
-                                    Thread.Sleep(20);
                                     Imports.keybd_event((byte)Imports.VK_Z, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
                                     break;
                                 default:
                                     break;
                             }
 
-                            Thread.Sleep(50);
+                            Thread.Sleep(20);
                         }
                         SpecialActionQueueHasValues = 0;
                     }
@@ -443,15 +436,7 @@ namespace clickerheroes.autoplayer
                 {
                     Cursor.Position = GameEngine.GetClickArea();
 
-                    // Normal autoclick 25 times between each special action (0.5sec)
-                    for (int i = 1; i <= 25; i++)
-                    {
-                        Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
-                        Thread.Sleep(10);
-                        Imports.mouse_event(Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
-                        Thread.Sleep(10);
-                    }
-
+                    Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
                 }
             }
         }
@@ -505,7 +490,8 @@ namespace clickerheroes.autoplayer
 
             if (nextTask is BuyAllTask)
             {
-                BuyAll();
+                BuyAllUpgrades();
+                nextTaskToPerform++;
                 return "Buying all upgrades";
             }
 
@@ -587,7 +573,6 @@ namespace clickerheroes.autoplayer
                     }
                 }
 
-                TryLevelHero(ph, 19, 150, curMoney, false);
                 TryUpgradeHero(ph, 19, 3, curMoney);
                 Thread.Sleep(1000);
                 ph = GameEngine.GetHeroes();
@@ -598,36 +583,11 @@ namespace clickerheroes.autoplayer
         /// <summary>
         /// Buy All upgrades
         /// </summary>
-        public static void BuyAll()
+        public static void BuyAllUpgrades()
         {
-            Point BuyAllButton = GameEngine.GetBuyAllButton();
-
-            // use candy height and width cuz it's close enough
-            int candyHeight = GameEngine.GetCandyHeight();
-            int candyWidth = GameEngine.GetCandyWidth();
-            Rectangle c = new Rectangle(BuyAllButton.X - candyWidth / 2, BuyAllButton.Y - candyHeight / 2, candyWidth, candyHeight);
-
-            while (true)
-            {
-                using (Bitmap bitmap = new Bitmap(c.Width, c.Height))
-                {
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        g.CopyFromScreen(new Point(c.Left, c.Top), Point.Empty, c.Size);
-                    }
-
-                    if (OCREngine.GetBlobDensity(bitmap, new Rectangle(0, 0, bitmap.Width - 1, bitmap.Height - 1), new Color[] {
-                        Color.FromArgb(68, 215, 35)
-                    }) > 0.10)
-                    {
-                        AddAction(new Action(BuyAllButton, 0));
-                        Thread.Sleep(1000);
-                        return;
-                    }
-                }
-
-                AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 3);
-            }
+            AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 6);
+            AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 100);
+            AddAction(new Action(GameEngine.GetBuyAllButton(), 0), 3);
         }
 
     }

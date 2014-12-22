@@ -134,7 +134,8 @@ namespace clickerheroes.autoplayer
                 }
 
                 double d = OCREngine.GetBlobDensity(lb, r, new Color[] { Color.FromArgb(39, 166, 10) });
-                if (d > 0.003)
+                double db = OCREngine.GetBlobDensity(lb, r, new Color[] { Color.FromArgb(7, 33, 1) });
+                if (d > 0.003 | db > 0.003)
                 {
                     UpgradeBitfield |= (Int16)(1 << i);
                 }
@@ -514,8 +515,8 @@ namespace clickerheroes.autoplayer
             AscendButton.X = (int)(PlayableArea.Width * 0.4344 + PlayableArea.Left);
             AscendButton.Y = (int)(PlayableArea.Height * 0.6654 + PlayableArea.Top);
 
-            BuyAllButton.X = (int)(PlayableArea.Width * 0.4344 + PlayableArea.Left);
-            BuyAllButton.Y = (int)(PlayableArea.Height * 0.6654 + PlayableArea.Top);
+            BuyAllButton.X = (int)(PlayableArea.Width * 0.2706 + PlayableArea.Left);
+            BuyAllButton.Y = (int)(PlayableArea.Height * 0.8645 + PlayableArea.Top);
         }
 
         /// <summary>
