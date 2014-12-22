@@ -256,12 +256,12 @@ namespace clickerheroes.autoplayer
         {
             if (ph.FirstHeroIndex > heroIndex)
             {
-                AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 6);
+                AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 3);
                 return false;
             }
             else if (ph.LastHeroIndex < heroIndex)
             {
-                AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 6);
+                AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 3);
                 return false;
             }
 
@@ -269,7 +269,7 @@ namespace clickerheroes.autoplayer
             HeroStats hs = ph.HeroStats[adjustedIndex];
             if (hs.Level == -1)
             {
-                AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 6);
+                AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 3);
                 return false;
             }
 
