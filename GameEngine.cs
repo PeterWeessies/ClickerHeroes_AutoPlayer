@@ -526,7 +526,7 @@ namespace clickerheroes.autoplayer
         /// </summary>
         public static bool ValidatePlayableArea()
         {
-            if (GetMoney() > 0)
+            if (GetMoney() >= 0)
             {
                 return true;
             }
@@ -609,7 +609,7 @@ namespace clickerheroes.autoplayer
         public static double GetMoney()
         {
             Size s = MoneyArea.Size;
-            double money = 0;
+            double money = -1;
 
             using (Bitmap bitmap = new Bitmap(s.Width, s.Height))
             {
@@ -632,6 +632,11 @@ namespace clickerheroes.autoplayer
                         try
                         {
                             money = Convert.ToDouble(lines.First().OcrString);
+
+                            if (lines.First().OcrString.Contains("e"))
+                            {
+                                money = money / 1000;
+                            }
                         }
                         catch (Exception)
                         {
@@ -640,7 +645,7 @@ namespace clickerheroes.autoplayer
                     }
                 }
 
-                return money / 1000;
+                return money;
             }
         }
 
