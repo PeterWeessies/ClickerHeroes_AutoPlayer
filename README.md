@@ -1,5 +1,6 @@
 # ClickerHeroes AutoPlayer
 An autoplayer for the game Clicker Heroes (http://clickerheroes.com). It can autoclick, activate skills, buy heroes and upgrades, and ascend, and start all over.
+This app is not tested with any other version of clicker heroes like Kongregate. Turn on show individual hero dps, and always use scientific notation when using this tool.
 
 ## Getting started
 The first thing to do is setting the location of your clicker heroes game:
