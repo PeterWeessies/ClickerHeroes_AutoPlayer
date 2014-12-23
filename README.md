@@ -3,15 +3,16 @@ An autoplayer for the game Clicker Heroes (http://clickerheroes.com). It can aut
 
 ## Getting started
 The first thing to do is setting the location of your clicker heroes game:
+
 1. Go to Setting -> Clicker Heroes Position
 2. Press Set
 3. Hover your mouse over the highlighted corners, starting with top left, and press spacebar
-4. Continue until all corners are set, and y
-ou get an confirmation it is saved.
+4. Continue until all corners are set, and you get an confirmation it is saved.
 
 ## Setting the task list
 The most important thing of this application is the task list. Using this task list you can specify what you want it to do.
 The main command in here is [hero id], [amount], [upgrades], [wait], [verify] for example 27, 100, 3, false, true
+
 | Variable  | Explanation                                                                                                       |
 | --------- | ----------------------------------------------------------------------------------------------------------------- |
 |[hero id]  | Id of the hero, cid = 0, treebeast = 1, ivan = 2 etc                                                              |
