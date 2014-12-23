@@ -122,6 +122,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "OtherSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Other";
             this.Load += new System.EventHandler(this.OtherSettings_Load);
             this.ResumeLayout(false);
