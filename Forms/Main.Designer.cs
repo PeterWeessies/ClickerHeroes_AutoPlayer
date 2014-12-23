@@ -35,7 +35,7 @@
             this.parsegame = new System.Windows.Forms.Timer(this.components);
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.curHeroesTxt = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,12 +44,7 @@
             this.useskills = new System.Windows.Forms.Timer(this.components);
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clickerHeroesPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,11 +55,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(11, 298);
+            this.button1.Location = new System.Drawing.Point(11, 295);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(305, 128);
             this.button1.TabIndex = 0;
-            this.button1.Text = "start";
+            this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -83,27 +78,27 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(89, 52);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 9;
-            this.label8.Text = "label8";
+            this.label8.Text = "n/a";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(90, 78);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
+            this.label9.Size = new System.Drawing.Size(24, 13);
             this.label9.TabIndex = 10;
-            this.label9.Text = "label9";
+            this.label9.Text = "n/a";
             // 
-            // textBox1
+            // curHeroesTxt
             // 
-            this.textBox1.Location = new System.Drawing.Point(11, 166);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox1.Size = new System.Drawing.Size(305, 123);
-            this.textBox1.TabIndex = 11;
+            this.curHeroesTxt.Location = new System.Drawing.Point(11, 166);
+            this.curHeroesTxt.Multiline = true;
+            this.curHeroesTxt.Name = "curHeroesTxt";
+            this.curHeroesTxt.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.curHeroesTxt.Size = new System.Drawing.Size(305, 123);
+            this.curHeroesTxt.TabIndex = 11;
             // 
             // label11
             // 
@@ -126,11 +121,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(89, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.Size = new System.Drawing.Size(24, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            this.label1.Text = "n/a";
             // 
             // label7
             // 
@@ -169,67 +165,18 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(90, 102);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(41, 13);
+            this.label14.Size = new System.Drawing.Size(24, 13);
             this.label14.TabIndex = 18;
-            this.label14.Text = "label14";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 432);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(77, 17);
-            this.checkBox1.TabIndex = 19;
-            this.checkBox1.Text = "Test Mode";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.label14.Text = "n/a";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(8, 121);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 13);
+            this.label15.Size = new System.Drawing.Size(24, 13);
             this.label15.TabIndex = 20;
-            this.label15.Text = "label15";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(9, 452);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(70, 13);
-            this.label16.TabIndex = 21;
-            this.label16.Text = "Dogcog level";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(85, 449);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(231, 20);
-            this.textBox2.TabIndex = 22;
-            this.textBox2.Text = "25";
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(173, 432);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(92, 17);
-            this.checkBox2.TabIndex = 23;
-            this.checkBox2.Text = "Autoclick only";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(95, 432);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(77, 17);
-            this.checkBox3.TabIndex = 24;
-            this.checkBox3.Text = "Log output";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.label15.Text = "n/a";
             // 
             // menuStrip1
             // 
@@ -277,20 +224,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 475);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label16);
+            this.ClientSize = new System.Drawing.Size(331, 435);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.curHeroesTxt);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label1);
@@ -318,7 +260,7 @@
         private System.Windows.Forms.Timer parsegame;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox curHeroesTxt;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label1;
@@ -327,12 +269,7 @@
         private System.Windows.Forms.Timer useskills;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clickerHeroesPositionToolStripMenuItem;

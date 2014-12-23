@@ -141,6 +141,9 @@ namespace clickerheroes.autoplayer
 
         public static string ParseTasklist(string s)
         {
+            Tasks.Clear();
+            nextTaskToPerform = 0;
+
             string[] tasks = s.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string str in tasks)
             {
@@ -469,7 +472,7 @@ namespace clickerheroes.autoplayer
                 }
                 else
                 {
-                    if (autoClick)
+                    if ( (autoClick && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoClicking) )
                     {
                         Cursor.Position = GameEngine.GetClickArea();
 
@@ -485,7 +488,7 @@ namespace clickerheroes.autoplayer
         /// <param name="keycode"></param>
         public static void PressKey(uint keycode)
         {
-            if (useSkils)
+            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill))
             {
                 Imports.keybd_event((byte)keycode, 0, 0, 0);
                 Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);

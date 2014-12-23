@@ -33,7 +33,7 @@ Idle
 15, 125, -1
 16, 125, -1
 17, 75, -1
-19, 150, -1
+19, 75, -1
 20, 100, -1
 22, 125, -1
 23, 100 ,-1
@@ -60,6 +60,21 @@ Active
 
 // Time to ascend Lilin reached 1500)
 Ascend</Value>
+    </Setting>
+    <Setting Name="useTaskList" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="autoSkill" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="autoClicking" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="logging" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="dogcog" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -29,38 +29,35 @@ namespace clickerheroes.autoplayer
         DateTime TimeToNextLog;
         ClickerHeroesPosition clickerHeroesPositionForm = new ClickerHeroesPosition();
         TaskList taskListForm = new TaskList();
+        OtherSettings otherSettingsForm = new OtherSettings();
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (GameEngine.ValidatePlayableArea())
-            {
-                ClickerThread = new Thread(new ThreadStart(PlayerEngine.ClickThread));
-                ClickerThread.Start();
-                ToggleAutoplayer(true);
-            }
-            else
-            {
-                MessageBox.Show("Can't find game, please check your settings");
-            }
-
+            ToggleAutoplayer(label1.ForeColor == Color.FromArgb(255, 0, 0, 0) || label1.ForeColor == Color.Black);
         }
 
         public void ToggleAutoplayer(bool state)
         {
-            label1.ForeColor = state ? Color.Red : Color.Black;
-            checkBox1.Enabled = !state;
-            checkBox2.Enabled = !state;
-            textBox2.Enabled = !state;
-            PlayerEngine.SetThreadActive((state && !checkBox1.Checked) ? 1 : 0);
-            parsegame.Enabled = (state && !checkBox2.Checked);
-            useskills.Enabled = (state && !checkBox1.Checked && !checkBox2.Checked);
-
-            if (checkBox1.Checked)
+            if (state && !GameEngine.ValidatePlayableArea())
             {
-                label14.Text = "Test Mode";
+                MessageBox.Show("Can't find game, please check your settings");
+                return;
             }
-            
-            if (state && checkBox3.Checked)
+
+            if (ClickerThread == null)
+            {
+                ClickerThread = new Thread(new ThreadStart(PlayerEngine.ClickThread));
+                ClickerThread.Start();
+            }
+
+            label1.ForeColor = state ? Color.Red : Color.Black;
+            button1.Text = state ? "Stop ( CTRL + SHIFT + D )" : "Start";
+            PlayerEngine.SetThreadActive(state ? 1 : 0);
+            parsegame.Enabled = state;
+            useskills.Enabled = state;
+            toolStripMenuItem1.Enabled = !state;
+
+            if (state && Properties.Settings.Default.logging)
             {
                 loggingDirectory = string.Format("{0}\\logs", Application.StartupPath);
                 if (!Directory.Exists(loggingDirectory))
@@ -73,16 +70,6 @@ namespace clickerheroes.autoplayer
                 Directory.CreateDirectory(string.Format("{0}\\{1}\\screenshots", loggingDirectory, currentLoggingString));
                 sw = File.AppendText(string.Format("{0}\\{1}\\{1}.csv", loggingDirectory, currentLoggingString));
                 TimeToNextLog = DateTime.Now;
-                int discountlevel;
-                if (Int32.TryParse(textBox2.Text, out discountlevel))
-                {
-                    GameEngine.SetHeroDiscount(1.0 - 0.02 * discountlevel);
-                }
-                else
-                {
-                    textBox2.Text = "0";
-                    GameEngine.SetHeroDiscount(1.0);
-                }
             }
             else
             {
@@ -93,21 +80,6 @@ namespace clickerheroes.autoplayer
                 }
             }
         }
-
-        //public void DrawBoundingRectangle(Bitmap b, Rectangle r)
-        //{
-        //    for (int x = r.Left; x <= r.Right; x++)
-        //    {
-        //        b.SetPixel(x, r.Top, Color.Red);
-        //        b.SetPixel(x, r.Bottom, Color.Red);
-        //    }
-
-        //    for (int y = r.Top; y <= r.Bottom; y++)
-        //    {
-        //        b.SetPixel(r.Left, y, Color.Red);
-        //        b.SetPixel(r.Right, y, Color.Red);
-        //    }
-        //}
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -126,18 +98,10 @@ namespace clickerheroes.autoplayer
 
             double money = GameEngine.GetMoney();
             ParsedHeroes ph = GameEngine.GetHeroes();
- 
-            // To make the autoplayer work with many levels of Iris, we intentionally do not click any candies
-            // unless we've just ascended (which is handled in the PlayerEngine)
-            /*Point p;
-            if (GameEngine.GetActiveCandy(out p) && !checkBox1.Checked)
-            {
-                PlayerEngine.AddAction(new Action(p, 0));
-            }*/
 
             if (ph != null)
             {
-                if (!checkBox1.Checked)
+                if (Properties.Settings.Default.useTaskList)
                 {
                     label14.Text = PlayerEngine.TryNextTask(ph, money);
                 }
@@ -150,16 +114,16 @@ namespace clickerheroes.autoplayer
                         sb.AppendLine(string.Format("{0}: Lvl {1} Upgrades {2}", ss.Hero.Name, ss.Level, Convert.ToString(ss.UpgradeBitfield, 2)));
                     }
                 }
-                textBox1.Text = sb.ToString();
+                curHeroesTxt.Text = sb.ToString();
             }
             else
             {
-                textBox1.Text = string.Empty;
+                curHeroesTxt.Text = string.Empty;
             }
 
             label9.Text = money.ToString();
 
-            if (checkBox3.Checked && DateTime.Now > TimeToNextLog)
+            if (Properties.Settings.Default.logging && DateTime.Now > TimeToNextLog)
             {
                 Stopwatch imgsw = new Stopwatch();
                 imgsw.Start();
@@ -257,6 +221,9 @@ namespace clickerheroes.autoplayer
                 MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
             }
 
+            // Set Discount
+            GameEngine.SetHeroDiscount(1.0 - 0.02 * Properties.Settings.Default.dogcog);
+
             // Set Hotkey
             ghk = new GlobalHotkey(GlobalHotkey.Constants.CTRL + GlobalHotkey.Constants.SHIFT, Keys.D, this);
             if (!ghk.Register())
@@ -315,7 +282,7 @@ namespace clickerheroes.autoplayer
 
         private void otherToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            otherSettingsForm.ShowDialog(this);
         }
 
     }

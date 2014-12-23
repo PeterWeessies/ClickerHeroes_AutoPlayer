@@ -19,6 +19,12 @@ namespace clickerheroes.autoplayer
 
         private void reloadBtn_Click(object sender, EventArgs e)
         {
+            string ret = PlayerEngine.ParseTasklist(Properties.Settings.Default.taskList);
+            if (ret != null)
+            {
+                MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
+            }
+
             TaskBox.Text = Properties.Settings.Default.taskList;
         }
 

@@ -91,7 +91,7 @@ Idle
 15, 125, -1
 16, 125, -1
 17, 75, -1
-19, 150, -1
+19, 75, -1
 20, 100, -1
 22, 125, -1
 23, 100 ,-1
@@ -124,6 +124,66 @@ Ascend")]
             }
             set {
                 this["taskList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool useTaskList {
+            get {
+                return ((bool)(this["useTaskList"]));
+            }
+            set {
+                this["useTaskList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoSkill {
+            get {
+                return ((bool)(this["autoSkill"]));
+            }
+            set {
+                this["autoSkill"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoClicking {
+            get {
+                return ((bool)(this["autoClicking"]));
+            }
+            set {
+                this["autoClicking"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool logging {
+            get {
+                return ((bool)(this["logging"]));
+            }
+            set {
+                this["logging"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int dogcog {
+            get {
+                return ((int)(this["dogcog"]));
+            }
+            set {
+                this["dogcog"] = value;
             }
         }
     }
