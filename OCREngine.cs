@@ -157,7 +157,7 @@ namespace clickerheroes.autoplayer
                     if (totalArea < 0.0003571 * screentotalArea && specialcharsenabled) //(double)rightArea / leftArea < 1.1) //1.1256)
                     {
                         guessedchar = 'e';
-                    } else if ((double)rightArea / leftArea > 1.6)
+                    } else if ((double)rightArea / leftArea > 1.6177) //1.6
                     {
                         guessedchar = '3';
                     }
@@ -171,15 +171,15 @@ namespace clickerheroes.autoplayer
                     }
                     break;
                 case 1:
-                    if ((double)lArea / tArea > 1.6406)
+                    if ((double)lArea / tArea > 1.7420) //1.6406
                     {
                         guessedchar = '6';
                     }
-                    else if ((double)lArea / tArea > 1.2514)
+                    else if ((double)lArea / tArea > 1.3405) //1.2514
                     {
                         guessedchar = '4';
                     }
-                    else if ((double)lArea / tArea < 0.9769)
+                    else if ((double)lArea / tArea <= 1) //0.9769
                     {
                         if ((double)midwidth / BoundingRect.Width < 0.7045)
                         {
