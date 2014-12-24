@@ -31,6 +31,7 @@ There are also some special commands you can use:
 |Active         | Start playing active, autoclick and use skills              |
 |BuyAllUpgrades | Press the buy all upgrades button                           |
 |Ascend         | Ascend, click a candy and play idle                         |
+|ReloadBrowser  | Reload the browsers game window (F5)                        |
 
 ## Other Options
 | Option          | Explanation                                                  |

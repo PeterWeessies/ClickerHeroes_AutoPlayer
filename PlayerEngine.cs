@@ -77,6 +77,15 @@ namespace clickerheroes.autoplayer
     }
 
     /// <summary>
+    /// A special task, which will reload
+    class ReloadBrowserTask : Task
+    {
+        public ReloadBrowserTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
     /// Due to latency issues, the player may periodically over-level or under-level heroes (will happen when system is having
     /// perf issues and doesn't update the game or player fast enough). Over-leveling is generally not an issue -- it is just a waste
     /// of some money. However under-leveling can be very serious, if many levels are skipped. A verify task is a special type of task
@@ -175,6 +184,12 @@ namespace clickerheroes.autoplayer
                 if (str.Trim().Equals("Idle"))
                 {
                     Tasks.Add(new IdleTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("ReloadBrowser"))
+                {
+                    Tasks.Add(new ReloadBrowserTask());
                     continue;
                 }
 
@@ -488,7 +503,7 @@ namespace clickerheroes.autoplayer
         /// <param name="keycode"></param>
         public static void PressKey(uint keycode)
         {
-            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill))
+            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5)
             {
                 Imports.keybd_event((byte)keycode, 0, 0, 0);
                 Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
@@ -553,6 +568,13 @@ namespace clickerheroes.autoplayer
                 useSkils = false;
                 nextTaskToPerform++;
                 return "Going Idle";
+            }
+
+            if (nextTask is ReloadBrowserTask)
+            {
+                ReloadBrowser();
+                nextTaskToPerform++;
+                return "Reloading browser window";
             }
 
             VerifyTask vt = nextTask as VerifyTask;
@@ -648,6 +670,20 @@ namespace clickerheroes.autoplayer
             AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 6);
             AddAction(new Action(GameEngine.GetScrollbarDownPoint(), 0), 100);
             AddAction(new Action(GameEngine.GetBuyAllButton(), 0), 3);
+        }
+
+        /// <summary>
+        /// Buy All upgrades
+        /// </summary>
+        public static void ReloadBrowser()
+        {
+            AddAction(new Action(GameEngine.GetFocusBrowser(), 0), 3);
+            Thread.Sleep(1000);
+            PressKey(Imports.VK_F5);
+            Thread.Sleep(10000);
+            AddAction(new Action(GameEngine.GetStartButton(), 0), 3);
+            Thread.Sleep(2500);
+            AddAction(new Action(GameEngine.GetCloseStartScreenButton(), 0), 3);
         }
 
     }

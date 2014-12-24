@@ -263,7 +263,7 @@ namespace clickerheroes.autoplayer
             PlayerEngine.PressKey(Imports.VK_4);
 
             // DPS
-            PlayerEngine.PressKey(Imports.VK_1);
+            // PlayerEngine.PressKey(Imports.VK_1);
             PlayerEngine.PressKey(Imports.VK_2);
             PlayerEngine.PressKey(Imports.VK_3);
             PlayerEngine.PressKey(Imports.VK_7);

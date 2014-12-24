@@ -346,6 +346,21 @@ namespace clickerheroes.autoplayer
         static private Point BuyAllButton;
 
         /// <summary>
+        /// The point to click to focus the browser instead of flash
+        /// </summary>
+        static private Point FocusBrowser;
+
+        /// <summary>
+        /// The location of the start button
+        /// </summary>
+        static private Point StartButton;
+
+        /// <summary>
+        /// The location of the close start screen
+        /// </summary>
+        static private Point CloseStartSceenButton;
+
+        /// <summary>
         /// The hero cost multiplier, which can be between 0.5 and 1.0 depending on Dogcog level.
         /// </summary>
         static double HeroDiscount = 1.0;
@@ -425,6 +440,21 @@ namespace clickerheroes.autoplayer
         public static Point GetBuyAllButton()
         {
             return BuyAllButton;
+        }
+
+        public static Point GetFocusBrowser()
+        {
+            return FocusBrowser;
+        }
+
+        public static Point GetStartButton()
+        {
+            return StartButton;
+        }
+
+        public static Point GetCloseStartScreenButton()
+        {
+            return CloseStartSceenButton;
         }
 
         public static int GetCandyWidth()
@@ -519,6 +549,15 @@ namespace clickerheroes.autoplayer
 
             BuyAllButton.X = (int)(PlayableArea.Width * 0.2706 + PlayableArea.Left);
             BuyAllButton.Y = (int)(PlayableArea.Height * 0.8645 + PlayableArea.Top);
+
+            FocusBrowser.X = (int)(PlayableArea.Left - 10);
+            FocusBrowser.Y = (int)(PlayableArea.Top - 10);
+
+            StartButton.X = (int)(PlayableArea.Width * 0.5 + PlayableArea.Left);
+            StartButton.Y = (int)(PlayableArea.Height * 0.4286 + PlayableArea.Top);
+
+            CloseStartSceenButton.X = (int)(PlayableArea.Width * 0.824 + PlayableArea.Left);
+            CloseStartSceenButton.Y = (int)(PlayableArea.Height * 0.12 + PlayableArea.Top);
         }
 
         /// <summary>

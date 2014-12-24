@@ -55,6 +55,7 @@ namespace clickerheroes.autoplayer
         public const uint VK_7 = 0x37;
         public const uint VK_8 = 0x38;
         public const uint VK_9 = 0x39;
+        public const uint VK_F5 = 0x74;
 
         [DllImport("user32.dll")]
         public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
