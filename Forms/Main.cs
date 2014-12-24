@@ -135,7 +135,7 @@ namespace clickerheroes.autoplayer
                         g.CopyFromScreen(new Point(playableArea.Left, playableArea.Top), Point.Empty, playableArea.Size);
                     }
 
-                    bitmap.Save(string.Format("{0}\\{1}\\screenshots\\{2}.bmp", loggingDirectory, currentLoggingString, DateTime.Now.ToString("MM-dd-yyyy HH mm ss")));
+                    bitmap.Save(string.Format("{0}\\{1}\\screenshots\\{2}.png", loggingDirectory, currentLoggingString, DateTime.Now.ToString("MM-dd-yyyy HH mm ss")));
                 }
                 TimeToNextLog = TimeToNextLog.AddMinutes(1);
                 imgsw.Stop();
