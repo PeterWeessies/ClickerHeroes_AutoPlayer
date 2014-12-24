@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -48,6 +49,9 @@ namespace clickerheroes.autoplayer
             {
                 ClickerThread = new Thread(new ThreadStart(PlayerEngine.ClickThread));
                 ClickerThread.Start();
+                // Sets the culture to English (US)
+                ClickerThread.CurrentCulture = new CultureInfo("en-US");
+                ClickerThread.CurrentUICulture = new CultureInfo("en-US");
             }
 
             label1.ForeColor = state ? Color.Red : Color.Black;

@@ -157,7 +157,7 @@ namespace clickerheroes.autoplayer
                     if (totalArea < 0.0003571 * screentotalArea && specialcharsenabled) //(double)rightArea / leftArea < 1.1) //1.1256)
                     {
                         guessedchar = 'e';
-                    } else if ((double)rightArea / leftArea > 1.6177) //1.6
+                    } else if ((double)rightArea / leftArea > 1.6160) //1.6   1.6177
                     {
                         guessedchar = '3';
                     }

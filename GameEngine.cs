@@ -632,11 +632,6 @@ namespace clickerheroes.autoplayer
                         try
                         {
                             money = Convert.ToDouble(lines.First().OcrString);
-
-                            if (lines.First().OcrString.Contains("e"))
-                            {
-                                money = money / 1000;
-                            }
                         }
                         catch (Exception)
                         {
