@@ -677,6 +677,12 @@ namespace clickerheroes.autoplayer
         /// </summary>
         public static void ReloadBrowser()
         {
+            // Temporary turn off autoclick and skills
+            bool rememberAutoClick = autoClick;
+            bool rememberuseSkils = useSkils;
+            autoClick = false;
+            useSkils = false;
+
             AddAction(new Action(GameEngine.GetFocusBrowser(), 0), 3);
             Thread.Sleep(1000);
             PressKey(Imports.VK_F5);
@@ -684,6 +690,9 @@ namespace clickerheroes.autoplayer
             AddAction(new Action(GameEngine.GetStartButton(), 0), 3);
             Thread.Sleep(2500);
             AddAction(new Action(GameEngine.GetCloseStartScreenButton(), 0), 3);
+
+            autoClick = rememberAutoClick;
+            useSkils = rememberuseSkils;
         }
 
     }
