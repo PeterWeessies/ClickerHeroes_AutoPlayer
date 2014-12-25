@@ -511,6 +511,7 @@ namespace clickerheroes.autoplayer
         }
 
         private static int nextTaskToPerform = 0;
+        private static DateTime maxEndTime;
 
         /// <summary>
         /// The main function which drives autoplaying. It will iterate through the task list sequentially,
@@ -531,6 +532,7 @@ namespace clickerheroes.autoplayer
             // Iris -- after ascending, we may potentially jump many levels into the game, but we don't have any money to buy any heroes.
             // To get around this, we do what human players do. We click candies when (and only when) we're on the very first task (aka
             // immediately after we've ascended).
+            // Also sets the maximum time the run has to end, as a fail safe if the app gets stuck (example, faulty OCR money read)
             if (nextTaskToPerform == 0)
             {
                 Point[] pts = GameEngine.GetCandyButtons();
@@ -538,6 +540,14 @@ namespace clickerheroes.autoplayer
                 {
                     AddAction(new Action(p, Modifiers.NONE));
                 }
+
+                maxEndTime = DateTime.Now.AddMinutes(Properties.Settings.Default.maxRunDuration);
+            }
+
+            // Check if the max run time has been reached
+            if (DateTime.Now > maxEndTime && nextTaskToPerform < Tasks.Count() - 3)
+            {
+                nextTaskToPerform = Tasks.Count() - 3;
             }
 
             if (nextTask is AscendTask)

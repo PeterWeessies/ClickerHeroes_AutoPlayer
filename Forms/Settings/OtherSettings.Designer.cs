@@ -36,6 +36,8 @@
             this.skillChk = new System.Windows.Forms.CheckBox();
             this.tasklistChk = new System.Windows.Forms.CheckBox();
             this.saveBtn = new System.Windows.Forms.Button();
+            this.maxRunDurationTxt = new System.Windows.Forms.TextBox();
+            this.maxRunDurationLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // loggingChk
@@ -60,16 +62,15 @@
             // 
             // dogcogTxt
             // 
-            this.dogcogTxt.Location = new System.Drawing.Point(85, 98);
+            this.dogcogTxt.Location = new System.Drawing.Point(12, 104);
             this.dogcogTxt.Name = "dogcogTxt";
-            this.dogcogTxt.Size = new System.Drawing.Size(27, 20);
+            this.dogcogTxt.Size = new System.Drawing.Size(20, 20);
             this.dogcogTxt.TabIndex = 27;
-            this.dogcogTxt.Text = "25";
             // 
             // dogcogLbl
             // 
             this.dogcogLbl.AutoSize = true;
-            this.dogcogLbl.Location = new System.Drawing.Point(9, 101);
+            this.dogcogLbl.Location = new System.Drawing.Point(34, 107);
             this.dogcogLbl.Name = "dogcogLbl";
             this.dogcogLbl.Size = new System.Drawing.Size(70, 13);
             this.dogcogLbl.TabIndex = 26;
@@ -94,10 +95,11 @@
             this.tasklistChk.TabIndex = 31;
             this.tasklistChk.Text = "Follow tasklist";
             this.tasklistChk.UseVisualStyleBackColor = true;
+            this.tasklistChk.CheckedChanged += new System.EventHandler(this.tasklistChk_CheckedChanged);
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(37, 124);
+            this.saveBtn.Location = new System.Drawing.Point(45, 157);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(75, 23);
             this.saveBtn.TabIndex = 32;
@@ -105,11 +107,29 @@
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
+            // maxRunDurationTxt
+            // 
+            this.maxRunDurationTxt.Location = new System.Drawing.Point(12, 130);
+            this.maxRunDurationTxt.Name = "maxRunDurationTxt";
+            this.maxRunDurationTxt.Size = new System.Drawing.Size(20, 20);
+            this.maxRunDurationTxt.TabIndex = 34;
+            // 
+            // maxRunDurationLbl
+            // 
+            this.maxRunDurationLbl.AutoSize = true;
+            this.maxRunDurationLbl.Location = new System.Drawing.Point(34, 133);
+            this.maxRunDurationLbl.Name = "maxRunDurationLbl";
+            this.maxRunDurationLbl.Size = new System.Drawing.Size(86, 13);
+            this.maxRunDurationLbl.TabIndex = 33;
+            this.maxRunDurationLbl.Text = "Max run duration";
+            // 
             // OtherSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(185, 163);
+            this.ClientSize = new System.Drawing.Size(167, 189);
+            this.Controls.Add(this.maxRunDurationTxt);
+            this.Controls.Add(this.maxRunDurationLbl);
             this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.tasklistChk);
             this.Controls.Add(this.skillChk);
@@ -139,5 +159,7 @@
         private System.Windows.Forms.CheckBox skillChk;
         private System.Windows.Forms.CheckBox tasklistChk;
         private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.TextBox maxRunDurationTxt;
+        private System.Windows.Forms.Label maxRunDurationLbl;
     }
 }

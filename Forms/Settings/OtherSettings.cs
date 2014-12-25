@@ -24,6 +24,8 @@ namespace clickerheroes.autoplayer
             clickingChk.Checked = Properties.Settings.Default.autoClicking;
             loggingChk.Checked = Properties.Settings.Default.logging;
             dogcogTxt.Text = Properties.Settings.Default.dogcog.ToString();
+            maxRunDurationTxt.Text = Properties.Settings.Default.maxRunDuration.ToString();
+            maxRunDurationTxt.Enabled = Properties.Settings.Default.useTaskList;
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -41,11 +43,29 @@ namespace clickerheroes.autoplayer
                 return;
             }
 
+            int maxRunDuration;
+
+            if (int.TryParse(maxRunDurationTxt.Text, out maxRunDuration) && maxRunDuration >= 0 && maxRunDuration <= 300)
+            {
+                Properties.Settings.Default.maxRunDuration = maxRunDuration;
+                GameEngine.SetHeroDiscount(1.0 - 0.02 * dogcogLvl);
+            }
+            else
+            {
+                MessageBox.Show("Max run duration needs to be a number between 0 and 300");
+                return;
+            }
+
             Properties.Settings.Default.useTaskList = tasklistChk.Checked;
             Properties.Settings.Default.autoSkill = skillChk.Checked;
             Properties.Settings.Default.autoClicking = clickingChk.Checked;
             Properties.Settings.Default.logging = loggingChk.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void tasklistChk_CheckedChanged(object sender, EventArgs e)
+        {
+            maxRunDurationTxt.Enabled = !maxRunDurationTxt.Enabled;
         }
 
     }

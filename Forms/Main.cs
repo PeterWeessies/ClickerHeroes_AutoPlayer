@@ -39,6 +39,14 @@ namespace clickerheroes.autoplayer
 
         public void ToggleAutoplayer(bool state)
         {
+            // Load Play Area
+            top = Properties.Settings.Default.top;
+            bot = Properties.Settings.Default.bot;
+            left = Properties.Settings.Default.left;
+            right = Properties.Settings.Default.right;
+
+            GameEngine.SetPlayableArea(new Rectangle(left, top, right - left, bot - top));
+
             if (state && !GameEngine.ValidatePlayableArea())
             {
                 MessageBox.Show("Can't find game, please check your settings");
@@ -53,6 +61,17 @@ namespace clickerheroes.autoplayer
                 ClickerThread.CurrentCulture = new CultureInfo("en-US");
                 ClickerThread.CurrentUICulture = new CultureInfo("en-US");
             }
+
+            // Load Tasks
+            string ret = PlayerEngine.ParseTasklist(Properties.Settings.Default.taskList);
+            if (ret != null)
+            {
+                MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
+                return;
+            }
+
+            // Set Discount
+            GameEngine.SetHeroDiscount(1.0 - 0.02 * Properties.Settings.Default.dogcog);
 
             label1.ForeColor = state ? Color.Red : Color.Black;
             button1.Text = state ? "Stop ( CTRL + SHIFT + D )" : "Start";
@@ -109,6 +128,10 @@ namespace clickerheroes.autoplayer
                 {
                     label14.Text = PlayerEngine.TryNextTask(ph, money);
                 }
+                else
+                {
+                    label14.Text = "None, tasks turned off";
+                }
 
                 StringBuilder sb = new StringBuilder();
                 if (ph.HeroStats != null)
@@ -144,6 +167,10 @@ namespace clickerheroes.autoplayer
                 TimeToNextLog = TimeToNextLog.AddMinutes(1);
                 imgsw.Stop();
                 label15.Text = string.Format("Image captured at {0} in {1} ms", DateTime.Now.ToString("hh:mm:ss"), imgsw.ElapsedMilliseconds);
+            }
+            else if (!Properties.Settings.Default.logging)
+            {
+                label15.Text = "Logging turned off";
             }
 
             t.Stop();
@@ -210,24 +237,6 @@ namespace clickerheroes.autoplayer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Load Play Area
-            top = Properties.Settings.Default.top;
-            bot = Properties.Settings.Default.bot;
-            left = Properties.Settings.Default.left;
-            right = Properties.Settings.Default.right;
-
-            GameEngine.SetPlayableArea(new Rectangle(left, top, right - left, bot - top));
-
-            // Load Tasks
-            string ret = PlayerEngine.ParseTasklist(Properties.Settings.Default.taskList);
-            if (ret != null)
-            {
-                MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
-            }
-
-            // Set Discount
-            GameEngine.SetHeroDiscount(1.0 - 0.02 * Properties.Settings.Default.dogcog);
-
             // Set Hotkey
             ghk = new GlobalHotkey(GlobalHotkey.Constants.CTRL + GlobalHotkey.Constants.SHIFT, Keys.D, this);
             if (!ghk.Register())

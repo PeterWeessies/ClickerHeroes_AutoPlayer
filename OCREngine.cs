@@ -171,7 +171,7 @@ namespace clickerheroes.autoplayer
                     }
                     break;
                 case 1:
-                    if ((double)lArea / tArea > 1.7420) //1.6406
+                    if ((double)lArea / tArea > 1.6691) //1.6406 1.7420 1.6933
                     {
                         guessedchar = '6';
                     }

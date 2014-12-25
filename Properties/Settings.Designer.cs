@@ -99,13 +99,13 @@ Idle
 25, 75, -1
 BuyAllUpgrades
 
-// Start progressing Atlas
-27, 1, -1
-27, 10, 0
-27, 30, 1
-27, 50, 2
-27, 100, 3, false, true
-27, 2000, -1, false, true
+// Start progressing Tera
+28, 1, -1
+28, 10, 0
+28, 30, 1
+28, 50, 2
+28, 100, 3, false, true
+28, 1500, -1, false, true
 
 // Start progressing Lilin and go Active
 31, 1, -1
@@ -117,6 +117,7 @@ Active
 31, 1500, -1, false, true
 
 // Time to ascend Lilin reached 1500)
+// This should always be the last task
 Ascend")]
         public string taskList {
             get {
@@ -184,6 +185,18 @@ Ascend")]
             }
             set {
                 this["dogcog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("55")]
+        public int maxRunDuration {
+            get {
+                return ((int)(this["maxRunDuration"]));
+            }
+            set {
+                this["maxRunDuration"] = value;
             }
         }
     }
