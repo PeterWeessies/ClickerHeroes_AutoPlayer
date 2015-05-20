@@ -29,7 +29,7 @@ namespace clickerheroes.autoplayer
                 return;
             }
 
-             switch (stage)
+            switch (stage)
             {
                 case 0:
                     topLeftLbl.Text = "Top Left";
@@ -146,12 +146,12 @@ namespace clickerheroes.autoplayer
                         getSettings();
                         MessageBox.Show("Can't find game, please try again");
                     }
-                   
+
                     stopSetBtn.Visible = false;
                     stage = 0;
                     break;
             }
-            
+
         }
 
         private void stopSetBtn_Click(object sender, EventArgs e)
@@ -209,7 +209,46 @@ namespace clickerheroes.autoplayer
             BotRightLbl.ForeColor = Color.Black;
         }
 
+        /// <summary>
+        /// Look for a Window named 'Clicker Heroes' and grab its rectangle.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void detectBtn_Click(object sender, EventArgs e)
+        {
+            // Find the Window
+            var hwnd = Imports.FindWindow(null, "Clicker Heroes");
 
+            // Get the RECT
+            var rect = new Imports.RECT();
+            var b = Imports.GetClientRect(hwnd, out rect);
+            if (b)
+            {
+                var point = new Imports.POINT();
+                b = Imports.ClientToScreen(hwnd, ref point);
+                if (b)
+                {
+                    // Set the playable area and update labels
+                    GameEngine.SetPlayableArea(new Rectangle(point.X, point.Y, rect.Right - rect.Left, rect.Bottom - rect.Top));
 
+                    Point clickPoint = GameEngine.GetClickArea();
+                    clickAreaLbl.Text = string.Format("{0}, {1}", clickPoint.X, clickPoint.Y);
+
+                    if (GameEngine.ValidatePlayableArea())
+                    {
+                        Properties.Settings.Default.top = point.X;
+                        Properties.Settings.Default.bot = point.Y;
+                        Properties.Settings.Default.left = rect.Left;
+                        Properties.Settings.Default.right = rect.Right;
+                        Properties.Settings.Default.Save();
+
+                        MessageBox.Show("Settings saved!");
+                        return;
+                    }
+                }
+            }
+            getSettings();
+            MessageBox.Show("Can't find game, please try again");
+        }
     }
 }

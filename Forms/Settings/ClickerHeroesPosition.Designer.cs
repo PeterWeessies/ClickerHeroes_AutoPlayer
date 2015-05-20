@@ -41,6 +41,7 @@
             this.mouseTimer = new System.Windows.Forms.Timer(this.components);
             this.stopSetBtn = new System.Windows.Forms.Button();
             this.BotLeftLbl = new System.Windows.Forms.Label();
+            this.detectBtn = new System.Windows.Forms.Button();
             this.clickerHeroes.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -141,11 +142,22 @@
             this.BotLeftLbl.Text = "Bottom Left";
             this.BotLeftLbl.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // detectBtn
+            // 
+            this.detectBtn.Location = new System.Drawing.Point(271, 204);
+            this.detectBtn.Name = "detectBtn";
+            this.detectBtn.Size = new System.Drawing.Size(75, 23);
+            this.detectBtn.TabIndex = 20;
+            this.detectBtn.Text = "Detect";
+            this.detectBtn.UseVisualStyleBackColor = true;
+            this.detectBtn.Click += new System.EventHandler(this.detectBtn_Click);
+            // 
             // ClickerHeroesPosition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(358, 238);
+            this.Controls.Add(this.detectBtn);
             this.Controls.Add(this.BotLeftLbl);
             this.Controls.Add(this.stopSetBtn);
             this.Controls.Add(this.CurPosDesLbl);
@@ -182,6 +194,7 @@
         private System.Windows.Forms.Timer mouseTimer;
         private System.Windows.Forms.Button stopSetBtn;
         private System.Windows.Forms.Label BotLeftLbl;
+        private System.Windows.Forms.Button detectBtn;
         
     }
 }
