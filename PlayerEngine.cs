@@ -455,35 +455,33 @@ namespace clickerheroes.autoplayer
                         {
                             Action nextAction = SpecialActionQueue.Dequeue();
                             // modifiers
-                            Cursor.Position = nextAction.p;
-
                             switch (nextAction.modifiers)
                             {
                                 case Modifiers.CTRL:
-                                    Imports.keybd_event((byte)Imports.VK_CONTROL, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_CONTROL);
                                     break;
                                 case Modifiers.SHIFT:
-                                    Imports.keybd_event((byte)Imports.VK_SHIFT, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_SHIFT);
                                     break;
                                 case Modifiers.Z:
-                                    Imports.keybd_event((byte)Imports.VK_Z, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_Z);
                                     break;
                                 default:
                                     break;
                             }
-
-                            Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)nextAction.p.X, (uint)nextAction.p.Y, 0, 0);
-
+                            
+                            GameEngine.DoClick(nextAction.p);
+                            
                             switch (nextAction.modifiers)
                             {
                                 case Modifiers.CTRL:
-                                    Imports.keybd_event((byte)Imports.VK_CONTROL, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_CONTROL);
                                     break;
                                 case Modifiers.SHIFT:
-                                    Imports.keybd_event((byte)Imports.VK_SHIFT, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_SHIFT);
                                     break;
                                 case Modifiers.Z:
-                                    Imports.keybd_event((byte)Imports.VK_Z, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_Z);
                                     break;
                                 default:
                                     break;
@@ -499,9 +497,7 @@ namespace clickerheroes.autoplayer
                 {
                     if ( (autoClick && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoClicking) )
                     {
-                        Cursor.Position = GameEngine.GetClickArea();
-
-                        Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
+                        GameEngine.DoClick(GameEngine.GetClickArea());
                     }
                 }
             }
@@ -515,8 +511,7 @@ namespace clickerheroes.autoplayer
         {
             if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5)
             {
-                Imports.keybd_event((byte)keycode, 0, 0, 0);
-                Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                GameEngine.KeyPress(keycode);
             }
         }
 

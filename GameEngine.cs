@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace clickerheroes.autoplayer
 {
@@ -265,6 +266,7 @@ namespace clickerheroes.autoplayer
     /// </summary>
     class GameEngine
     {
+        public static IntPtr WindowHandle;
         /// <summary>
         ///  The heroes!
         /// </summary>
@@ -765,6 +767,8 @@ namespace clickerheroes.autoplayer
 
             CloseStartSceenButton.X = (int)(PlayableArea.Width * 0.824 + PlayableArea.Left);
             CloseStartSceenButton.Y = (int)(PlayableArea.Height * 0.12 + PlayableArea.Top);
+
+            WindowHandle = Imports.FindWindow(null, "Clicker Heroes");
         }
 
         /// <summary>
@@ -1049,6 +1053,55 @@ namespace clickerheroes.autoplayer
             }
             parsedHeroes.HeroStats = heroStats;
             return parsedHeroes;
+        }
+
+
+        public static void KeyDown(uint keyCode)
+        {
+            if (WindowHandle != IntPtr.Zero)
+            {
+                Imports.PostMessage(WindowHandle, Imports.WM_KEYDOWN, (IntPtr)keyCode, IntPtr.Zero);
+            }
+            else
+            {
+                Imports.keybd_event((byte)keyCode, 0, 0, 0);
+            }
+        }
+
+        public static void KeyUp(uint keyCode)
+        {
+            if (WindowHandle != IntPtr.Zero)
+            {
+                Imports.PostMessage(WindowHandle, Imports.WM_KEYUP, (IntPtr)keyCode, IntPtr.Zero);
+            }
+            else
+            {
+                Imports.keybd_event((byte)keyCode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            }
+        }
+
+        public static void KeyPress(uint keyCode)
+        {
+            KeyDown(keyCode);
+            KeyUp(keyCode);
+        }
+
+        public static void DoClick(Point p)
+        {
+            if (WindowHandle != IntPtr.Zero)
+            {
+                var pt = new Imports.POINT() { X = p.X, Y = p.Y };
+                Imports.ScreenToClient(WindowHandle, ref pt);
+                int coordinates = pt.X | (pt.Y << 16);
+                Imports.PostMessage(WindowHandle, Imports.WM_LBUTTONDOWN, (IntPtr)0x1, (IntPtr)coordinates);
+                System.Threading.Thread.Sleep(10);
+                Imports.PostMessage(WindowHandle, Imports.WM_LBUTTONUP, (IntPtr)0x1, (IntPtr)coordinates);
+            }
+            else
+            {
+                Cursor.Position = p;
+                Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)p.X, (uint)p.Y, 0, 0);
+            }
         }
     }
 }
