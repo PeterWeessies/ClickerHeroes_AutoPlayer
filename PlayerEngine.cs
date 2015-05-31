@@ -47,6 +47,18 @@ namespace clickerheroes.autoplayer
     }
 
     /// <summary>
+    /// A special task, which will ascend. While ascending, the CTRL-SHIFT-D shutoff will be temporarily disabled.
+    /// See documentation for Task
+    /// </summary>
+    class ProgressTask : Task
+    {
+        public ProgressTask()
+            : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
     /// A special task, which will buy all upgrades
     /// </summary>
     class BuyAllÙpgradesTask : Task
@@ -166,6 +178,12 @@ namespace clickerheroes.autoplayer
                     Tasks.Add(new Task(19, 150, -1, false));
                     Tasks.Add(new IdleTask());
                     Tasks.Add(new AscendTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("Progress"))
+                {
+                    Tasks.Add(new ProgressTask());
                     continue;
                 }
 
@@ -557,6 +575,13 @@ namespace clickerheroes.autoplayer
                 return "Ascending";
             }
 
+            if (nextTask is ProgressTask)
+            {
+                ActiveProgressMode();
+                nextTaskToPerform++;
+                return "Active progress mode";
+            }
+
             if (nextTask is BuyAllÙpgradesTask)
             {
                 BuyAllUpgrades();
@@ -670,6 +695,11 @@ namespace clickerheroes.autoplayer
                 ph = GameEngine.GetHeroes();
                 curMoney = GameEngine.GetMoney();
             }
+        }
+
+        public static void ActiveProgressMode()
+        {
+            AddAction(new Action(GameEngine.GetProgressButton(), 0));
         }
 
         /// <summary>
