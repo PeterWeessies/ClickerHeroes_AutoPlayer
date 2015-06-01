@@ -542,7 +542,7 @@ namespace clickerheroes.autoplayer
             CandyHeight = (int)(PlayableArea.Height * 0.05);
 
             ProgressButton.X = (int)(PlayableArea.Width * 0.9799 + PlayableArea.Left);
-            ProgressButton.Y = (int)(PlayableArea.Height * 0.3308 + PlayableArea.Top);
+            ProgressButton.Y = (int)(PlayableArea.Height * 0.4008 + PlayableArea.Top);
 
             AscendButton.X = (int)(PlayableArea.Width * 0.4344 + PlayableArea.Left);
             AscendButton.Y = (int)(PlayableArea.Height * 0.6654 + PlayableArea.Top);
