@@ -240,6 +240,16 @@ namespace clickerheroes.autoplayer
                     return string.Format("Expected \"false\" or \"true\" for verify parameter of task: {0}", str);
                 }
 
+                var hero = GameEngine.HeroList[hindex];
+                if (upgrades >= hero.Upgrades.Length)
+                {
+                    return string.Format("Hero {0} ({1}) only has {2} upgrades. Task: {3}", hindex, hero.Name, hero.Upgrades.Length, str);
+                }
+                if (upgrades > -1 && hero.Upgrades[upgrades].Level > level)
+                {
+                    return string.Format("Hero {0} ({1}) must be at level {2} to unlock upgrade {3} ({4}). Task: {5}", hindex, hero.Name, hero.Upgrades[upgrades].Level, upgrades, hero.Upgrades[upgrades].Name, str);
+                }
+
                 if (verify)
                 {
                     Tasks.Add(new VerifyTask(hindex, level, upgrades, wait));
@@ -413,7 +423,7 @@ namespace clickerheroes.autoplayer
             else
             {
                 Point upgradeButton;
-                if (hs.Hero.UpgradeCosts[desiredUpgrade] < currentMoney && hs.GetUpgradeButton(out upgradeButton, desiredUpgrade))
+                if (hs.Hero.Upgrades[desiredUpgrade].Cost < currentMoney && hs.GetUpgradeButton(out upgradeButton, desiredUpgrade))
                 {
                     AddAction(new Action(upgradeButton, 0));
                     return false;
@@ -445,35 +455,33 @@ namespace clickerheroes.autoplayer
                         {
                             Action nextAction = SpecialActionQueue.Dequeue();
                             // modifiers
-                            Cursor.Position = nextAction.p;
-
                             switch (nextAction.modifiers)
                             {
                                 case Modifiers.CTRL:
-                                    Imports.keybd_event((byte)Imports.VK_CONTROL, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_CONTROL);
                                     break;
                                 case Modifiers.SHIFT:
-                                    Imports.keybd_event((byte)Imports.VK_SHIFT, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_SHIFT);
                                     break;
                                 case Modifiers.Z:
-                                    Imports.keybd_event((byte)Imports.VK_Z, 0, 0, 0);
+                                    GameEngine.KeyDown(Imports.VK_Z);
                                     break;
                                 default:
                                     break;
                             }
-
-                            Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)nextAction.p.X, (uint)nextAction.p.Y, 0, 0);
-
+                            
+                            GameEngine.DoClick(nextAction.p);
+                            
                             switch (nextAction.modifiers)
                             {
                                 case Modifiers.CTRL:
-                                    Imports.keybd_event((byte)Imports.VK_CONTROL, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_CONTROL);
                                     break;
                                 case Modifiers.SHIFT:
-                                    Imports.keybd_event((byte)Imports.VK_SHIFT, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_SHIFT);
                                     break;
                                 case Modifiers.Z:
-                                    Imports.keybd_event((byte)Imports.VK_Z, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                                    GameEngine.KeyUp(Imports.VK_Z);
                                     break;
                                 default:
                                     break;
@@ -489,9 +497,7 @@ namespace clickerheroes.autoplayer
                 {
                     if ( (autoClick && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoClicking) )
                     {
-                        Cursor.Position = GameEngine.GetClickArea();
-
-                        Imports.mouse_event(Imports.MOUSEEVENTF_LEFTDOWN | Imports.MOUSEEVENTF_LEFTUP, (uint)GameEngine.GetClickArea().X, (uint)GameEngine.GetClickArea().Y, 0, 0);
+                        GameEngine.DoClick(GameEngine.GetClickArea());
                     }
                 }
             }
@@ -505,8 +511,7 @@ namespace clickerheroes.autoplayer
         {
             if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5)
             {
-                Imports.keybd_event((byte)keycode, 0, 0, 0);
-                Imports.keybd_event((byte)keycode, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+                GameEngine.KeyPress(keycode);
             }
         }
 

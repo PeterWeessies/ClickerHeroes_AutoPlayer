@@ -10,6 +10,10 @@ The first thing to do is setting the location of your clicker heroes game:
 3. Hover your mouse over the highlighted corners, starting with top left, and press spacebar
 4. Continue until all corners are set, and you get an confirmation it is saved.
 
+Or if you are running a Windows client (e.g. Steam)
+
+2. Press Detect. We'll ask Windows to find the right area for us.
+
 ## Setting the task list
 The most important thing of this application is the task list. Using this task list you can specify what you want it to do.
 The main command in here is [hero id], [amount], [upgrades], [wait], [verify] for example 27, 100, 3, false, true
