@@ -77,7 +77,8 @@ namespace clickerheroes.autoplayer
         /// <param name="b">The bitmap containing this char</param>
         /// <param name="screentotalArea">The total area of the entire playscreen, used for OCR purposes</param>
         /// <param name="specialcharsenabled">True if "e" and "." can appear in the string </param>
-        public void DoOcr(LockBitmap b, int screentotalArea, bool specialcharsenabled = true) {
+        public void DoOcr(LockBitmap b, int screentotalArea, bool specialcharsenabled = true) 
+        {
             int totalArea = 0, lArea = 0, tArea = 0;
             int leftArea = 0, rightArea = 0;
             int groupsDownMiddleVertical = 0;

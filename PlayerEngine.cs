@@ -649,7 +649,7 @@ namespace clickerheroes.autoplayer
 
             if (nextTask is MidasStartTask)
             {
-                MidasStart(ph, curMoney);
+                MidasStart();
                 nextTaskToPerform++;
                 return "Performing Midas Start";
             }
@@ -722,13 +722,8 @@ namespace clickerheroes.autoplayer
 
             while (true)
             {
-                using (Bitmap bitmap = new Bitmap(c.Width, c.Height))
+                using (Bitmap bitmap = GameEngine.GetImage(c))
                 {
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        g.CopyFromScreen(new Point(c.Left, c.Top), Point.Empty, c.Size);
-                    }
-
                     if (OCREngine.GetBlobDensity(bitmap, new Rectangle(0, 0, bitmap.Width - 1, bitmap.Height - 1), new Color[] {
                         Color.FromArgb(68, 215, 35)
                     }) > 0.10)
@@ -791,14 +786,26 @@ namespace clickerheroes.autoplayer
 
         /// <summary>
         /// Perform a Midas Start - Still must manipulate task list, this just activates golden clicks and clicks the monster
-        /// Not as useful anymore, and need to find a way to be able to use PressKey()
+        /// Not entirely useful anymore.
         /// </summary>
-        public static void MidasStart(ParsedHeroes ph, double curMoney)
+        public static void MidasStart()
         {
+            //Perform a Midas Start:
+            //This buys a single level in Natalia, proceeds to level 60
+            //then levels up Midas to level 125, purchases Golden Clicks and then clicks mob a few times
+
             //Activate Golden Clicks
             //PressKey(Imports.VK_5);
-            Imports.keybd_event((byte)Imports.VK_5, 0, 0, 0);
-            Imports.keybd_event((byte)Imports.VK_5, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            if (GameEngine.WindowHandle != IntPtr.Zero)
+            {
+                Imports.PostMessage(GameEngine.WindowHandle, Imports.WM_KEYDOWN, (IntPtr)Imports.VK_5, IntPtr.Zero);
+                Imports.PostMessage(GameEngine.WindowHandle, Imports.WM_KEYUP, (IntPtr)Imports.VK_5, IntPtr.Zero);
+            }
+            else
+            {
+                Imports.keybd_event((byte)Imports.VK_5, 0, 0, 0);
+                Imports.keybd_event((byte)Imports.VK_5, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            }
 
             //Click Monster
             AddAction(new Action(GameEngine.GetClickArea(), 0), 5);

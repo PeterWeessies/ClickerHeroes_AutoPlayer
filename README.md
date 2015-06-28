@@ -36,7 +36,7 @@ There are also some special commands you can use:
 |BuyAllUpgrades | Press the buy all upgrades button                           |
 |Ascend         | Ascend, click a candy and play idle                         |
 |ReloadBrowser  | Reload the browsers game window (F5) - Save to clipboard    |
-|MidasStart		| Activates Golden clicks and clicks the monster (Not Useful) |
+|MidasStart		| Perform a Midas Start - Not as useful anymore				  |
 |Salvage		| Salvages the current relic in junk pile so we can Ascend    |
 
 ## Other Options

@@ -42,6 +42,7 @@
             this.stopSetBtn = new System.Windows.Forms.Button();
             this.BotLeftLbl = new System.Windows.Forms.Label();
             this.detectBtn = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.clickerHeroes.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,11 +153,23 @@
             this.detectBtn.UseVisualStyleBackColor = true;
             this.detectBtn.Click += new System.EventHandler(this.detectBtn_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(185, 208);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(84, 17);
+            this.checkBox1.TabIndex = 21;
+            this.checkBox1.Text = "Background";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // ClickerHeroesPosition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 238);
+            this.ClientSize = new System.Drawing.Size(358, 239);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.detectBtn);
             this.Controls.Add(this.BotLeftLbl);
             this.Controls.Add(this.stopSetBtn);
@@ -195,6 +208,7 @@
         private System.Windows.Forms.Button stopSetBtn;
         private System.Windows.Forms.Label BotLeftLbl;
         private System.Windows.Forms.Button detectBtn;
+        private System.Windows.Forms.CheckBox checkBox1;
         
     }
 }

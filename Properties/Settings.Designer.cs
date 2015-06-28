@@ -199,5 +199,20 @@ Ascend")]
                 this["maxRunDuration"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool backgroundWindow
+        {
+            get
+            {
+                return ((bool)(this["backgroundWindow"]));
+            }
+            set
+            {
+                this["backgroundWindow"] = value;
+            }
+        }
     }
 }
