@@ -872,7 +872,19 @@ namespace clickerheroes.autoplayer
             SalvageJunkPileYesButton.X = (int)(PlayableArea.Width * 0.4321 + PlayableArea.Left);
             SalvageJunkPileYesButton.Y = (int)(PlayableArea.Height * 0.6317 + PlayableArea.Top);
 
+            //Check for Steam window
             WindowHandle = Imports.FindWindow(null, "Clicker Heroes");
+            /*
+             * Not sure how to make this effective, while it would be nice to be able to have a chrome
+             * window in the background, not sure how to make it work effectivily
+            //Check for Chrome tab if no steam window
+            //It finds the window correctly, you can still freely use the mouse but it still
+            //takes focus away from everything else
+            if(WindowHandle == IntPtr.Zero)
+            {
+                WindowHandle = FindChromeTab.ChromeWindow();
+            }
+             * */
         }
 
         /// <summary>
