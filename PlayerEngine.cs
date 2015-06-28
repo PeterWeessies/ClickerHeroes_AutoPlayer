@@ -169,6 +169,12 @@ namespace clickerheroes.autoplayer
         private static bool autoClick = false;
         private static bool useSkils = false;
 
+        //Return value of useSkils
+        public static bool getUseSkils()
+        {
+            return useSkils;
+        }
+
         public static string ParseTasklist(string s)
         {
             Tasks.Clear();
@@ -587,6 +593,12 @@ namespace clickerheroes.autoplayer
                 foreach (Point p in pts)
                 {
                     AddAction(new Action(p, Modifiers.NONE));
+                }
+
+                // Toggle Progress button
+                if (!GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
                 }
 
                 maxEndTime = DateTime.Now.AddMinutes(Properties.Settings.Default.maxRunDuration);
