@@ -578,6 +578,46 @@ namespace clickerheroes.autoplayer
         /// The location of the progress/farm mode button
         /// </summary>
         static private Point ProgressButton;
+
+        /// <summary>
+        /// The location of the option button
+        /// </summary>
+        static private Point OptionButton;
+
+        /// <summary>
+        /// The location of the save button
+        /// </summary>
+        static private Point SaveButton;
+
+        /// <summary>
+        /// The location of the close save screen
+        /// </summary>
+        static private Point CloseSaveScreenButton;
+
+        /// <summary>
+        /// The location of the close option screen
+        /// </summary>
+        static private Point CloseOptionScreenButton;
+
+        /// <summary>
+        /// The location of the Relic Tab Button
+        /// </summary>
+        static private Point RelicTabButton;
+
+        /// <summary>
+        /// The location of the Hero Tab Button
+        /// </summary>
+        static private Point HeroTabButton;
+
+        /// <summary>
+        /// The location of the Salvage Junk Pile Button
+        /// </summary>
+        static private Point SalvageJunkPileButton;
+
+        /// <summary>
+        /// The location of the Salvage Junk Pile Yes Button
+        /// </summary>
+        static private Point SalvageJunkPileYesButton;
         #endregion
 
         #region GameEngineGetters
@@ -685,6 +725,46 @@ namespace clickerheroes.autoplayer
         {
             return Candies;
         }
+
+        public static Point GetOptionButton()
+        {
+            return OptionButton;
+        }
+
+        public static Point GetSaveButton()
+        {
+            return SaveButton;
+        }
+
+        public static Point GetCloseSaveScreenButton()
+        {
+            return CloseSaveScreenButton;
+        }
+
+        public static Point GetCloseOptionScreenButton()
+        {
+            return CloseOptionScreenButton;
+        }
+
+        public static Point GetRelicTabButton()
+        {
+            return RelicTabButton;
+        }
+
+        public static Point GetHeroTabButton()
+        {
+            return HeroTabButton;
+        }
+
+        public static Point GetSalvageJunkPileButton()
+        {
+            return SalvageJunkPileButton;
+        }
+
+        public static Point GetSalvageJunkPileYesButton()
+        {
+            return SalvageJunkPileYesButton;
+        }
         #endregion
 
         /// <summary>
@@ -767,6 +847,30 @@ namespace clickerheroes.autoplayer
 
             CloseStartSceenButton.X = (int)(PlayableArea.Width * 0.824 + PlayableArea.Left);
             CloseStartSceenButton.Y = (int)(PlayableArea.Height * 0.12 + PlayableArea.Top);
+
+            OptionButton.X = (int)(PlayableArea.Width * 0.9799 + PlayableArea.Left);
+            OptionButton.Y = (int)(PlayableArea.Height * 0.0313 + PlayableArea.Top);
+
+            SaveButton.X = (int)(PlayableArea.Width * 0.2874 + PlayableArea.Left);
+            SaveButton.Y = (int)(PlayableArea.Height * 0.1270 + PlayableArea.Top);
+
+            CloseSaveScreenButton.X = (int)(PlayableArea.Width * 0.4403 + PlayableArea.Left);
+            CloseSaveScreenButton.Y = (int)(PlayableArea.Height * 0.4702 + PlayableArea.Top);
+
+            CloseOptionScreenButton.X = (int)(PlayableArea.Width * 0.7922 + PlayableArea.Left);
+            CloseOptionScreenButton.Y = (int)(PlayableArea.Height * 0.0470 + PlayableArea.Top);
+
+            RelicTabButton.X = (int)(PlayableArea.Width * 0.3298 + PlayableArea.Left);
+            RelicTabButton.Y = (int)(PlayableArea.Height * 0.1614 + PlayableArea.Top);
+
+            HeroTabButton.X = (int)(PlayableArea.Width * 0.0344 + PlayableArea.Left);
+            HeroTabButton.Y = (int)(PlayableArea.Height * 0.1614 + PlayableArea.Top);
+
+            SalvageJunkPileButton.X = (int)(PlayableArea.Width * 0.2460 + PlayableArea.Left);
+            SalvageJunkPileButton.Y = (int)(PlayableArea.Height * 0.6865 + PlayableArea.Top);
+
+            SalvageJunkPileYesButton.X = (int)(PlayableArea.Width * 0.4321 + PlayableArea.Left);
+            SalvageJunkPileYesButton.Y = (int)(PlayableArea.Height * 0.6317 + PlayableArea.Top);
 
             WindowHandle = Imports.FindWindow(null, "Clicker Heroes");
         }

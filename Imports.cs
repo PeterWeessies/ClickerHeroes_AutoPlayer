@@ -68,6 +68,7 @@ namespace clickerheroes.autoplayer
         public const uint VK_8 = 0x38;
         public const uint VK_9 = 0x39;
         public const uint VK_F5 = 0x74;
+        public const uint VK_ESC = 0x1B;
 
 
         public const int WM_SETTEXT = 0x000c;

@@ -78,9 +78,30 @@ namespace clickerheroes.autoplayer
 
     /// <summary>
     /// A special task, which will reload
+    /// </summary>
     class ReloadBrowserTask : Task
     {
         public ReloadBrowserTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will perform a midas start
+    /// </summary>
+    class MidasStartTask : Task
+    {
+        public MidasStartTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will salvage any excess relics
+    /// </summary>
+    class SalvageRelicTask : Task
+    {
+        public SalvageRelicTask() : base(-1, -1, -1, false)
         {
         }
     }
@@ -190,6 +211,18 @@ namespace clickerheroes.autoplayer
                 if (str.Trim().Equals("ReloadBrowser"))
                 {
                     Tasks.Add(new ReloadBrowserTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("MidasStart"))
+                {
+                    Tasks.Add(new MidasStartTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("Salvage"))
+                {
+                    Tasks.Add(new SalvageRelicTask());
                     continue;
                 }
 
@@ -317,6 +350,16 @@ namespace clickerheroes.autoplayer
         /// <returns>True if and only if the hero is currently already at that level</returns>
         public static bool TryLevelHero(ParsedHeroes ph, int heroIndex, int desiredLevel, double currentMoney, bool wait)
         {
+            //If Active and using auto click mode, click candies
+            if (autoClick)
+            {
+                Point[] pts = GameEngine.GetCandyButtons();
+                foreach (Point p in pts)
+                {
+                    AddAction(new Action(p, Modifiers.NONE));
+                }
+            }
+            
             if (ph.FirstHeroIndex > heroIndex)
             {
                 AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 3);
@@ -509,7 +552,7 @@ namespace clickerheroes.autoplayer
         /// <param name="keycode"></param>
         public static void PressKey(uint keycode)
         {
-            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5)
+            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5 || keycode == Imports.VK_ESC)
             {
                 GameEngine.KeyPress(keycode);
             }
@@ -590,6 +633,20 @@ namespace clickerheroes.autoplayer
                 ReloadBrowser();
                 nextTaskToPerform++;
                 return "Reloading browser window";
+            }
+
+            if (nextTask is MidasStartTask)
+            {
+                MidasStart(ph, curMoney);
+                nextTaskToPerform++;
+                return "Performing Midas Start";
+            }
+
+            if (nextTask is SalvageRelicTask)
+            {
+                SalvageRelic();
+                nextTaskToPerform++;
+                return "Salvaging Relics";
             }
 
             VerifyTask vt = nextTask as VerifyTask;
@@ -688,7 +745,7 @@ namespace clickerheroes.autoplayer
         }
 
         /// <summary>
-        /// Buy All upgrades
+        /// Refresh Browser - Force a save to clipboard before reloading
         /// </summary>
         public static void ReloadBrowser()
         {
@@ -698,16 +755,59 @@ namespace clickerheroes.autoplayer
             autoClick = false;
             useSkils = false;
 
+            //Force a save before reload
+            AddAction(new Action(GameEngine.GetOptionButton(), 0));
+            Thread.Sleep(1500);
+            AddAction(new Action(GameEngine.GetSaveButton(), 0));
+            Thread.Sleep(1500);
+            PressKey(Imports.VK_ESC);
+            //AddAction(new Action(GameEngine.GetCloseSaveScreenButton(), 0));
+            Thread.Sleep(1500);
+            //AddAction(new Action(GameEngine.GetCloseOptionScreenButton(), 0));
+            //Thread.Sleep(2500);
             AddAction(new Action(GameEngine.GetFocusBrowser(), 0), 3);
             Thread.Sleep(1000);
             PressKey(Imports.VK_F5);
             Thread.Sleep(10000);
             AddAction(new Action(GameEngine.GetStartButton(), 0), 3);
-            Thread.Sleep(2500);
+            Thread.Sleep(1500);
             AddAction(new Action(GameEngine.GetCloseStartScreenButton(), 0), 3);
 
             autoClick = rememberAutoClick;
             useSkils = rememberuseSkils;
+        }
+
+        /// <summary>
+        /// Perform a Midas Start - Still must manipulate task list, this just activates golden clicks and clicks the monster
+        /// Not as useful anymore, and need to find a way to be able to use PressKey()
+        /// </summary>
+        public static void MidasStart(ParsedHeroes ph, double curMoney)
+        {
+            //Activate Golden Clicks
+            //PressKey(Imports.VK_5);
+            Imports.keybd_event((byte)Imports.VK_5, 0, 0, 0);
+            Imports.keybd_event((byte)Imports.VK_5, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+
+            //Click Monster
+            AddAction(new Action(GameEngine.GetClickArea(), 0), 5);
+        }
+
+        /// <summary>
+        /// Salvage Relics so we can ascend
+        /// </summary>
+        public static void SalvageRelic()
+        {
+            //Switch to Relic tab
+            AddAction(new Action(GameEngine.GetRelicTabButton(), 0));
+
+            //Salvage Relic
+            AddAction(new Action(GameEngine.GetSalvageJunkPileButton(), 0));
+            Thread.Sleep(1000);
+            //Confirm Salvage
+            AddAction(new Action(GameEngine.GetSalvageJunkPileYesButton(), 0));
+            Thread.Sleep(1000);
+            //Switch back to hero tab
+            AddAction(new Action(GameEngine.GetHeroTabButton(), 0));
         }
 
     }

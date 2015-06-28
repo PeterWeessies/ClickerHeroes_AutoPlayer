@@ -39,14 +39,6 @@ namespace clickerheroes.autoplayer
 
         public void ToggleAutoplayer(bool state)
         {
-            // Load Play Area
-            top = Properties.Settings.Default.top;
-            bot = Properties.Settings.Default.bot;
-            left = Properties.Settings.Default.left;
-            right = Properties.Settings.Default.right;
-
-            GameEngine.SetPlayableArea(new Rectangle(left, top, right - left, bot - top));
-
             if (state && !GameEngine.ValidatePlayableArea())
             {
                 MessageBox.Show("Can't find game, please check your settings");
@@ -61,17 +53,6 @@ namespace clickerheroes.autoplayer
                 ClickerThread.CurrentCulture = new CultureInfo("en-US");
                 ClickerThread.CurrentUICulture = new CultureInfo("en-US");
             }
-
-            // Load Tasks
-            string ret = PlayerEngine.ParseTasklist(Properties.Settings.Default.taskList);
-            if (ret != null)
-            {
-                MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
-                return;
-            }
-
-            // Set Discount
-            GameEngine.SetHeroDiscount(1.0 - 0.02 * Properties.Settings.Default.dogcog);
 
             label1.ForeColor = state ? Color.Red : Color.Black;
             button1.Text = state ? "Stop ( CTRL + SHIFT + D )" : "Start";
@@ -237,6 +218,26 @@ namespace clickerheroes.autoplayer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Load Play Area
+            top = Properties.Settings.Default.top;
+            bot = Properties.Settings.Default.bot;
+            left = Properties.Settings.Default.left;
+            right = Properties.Settings.Default.right;
+
+            GameEngine.SetPlayableArea(new Rectangle(left, top, right - left, bot - top));
+
+            // By moving here, we do not reload the tasklist every time we stop the program with the GHK
+            // Load Tasks
+            string ret = PlayerEngine.ParseTasklist(Properties.Settings.Default.taskList);
+            if (ret != null)
+            {
+                MessageBox.Show(string.Format("Error parsing task list: {0}", ret));
+                return;
+            }
+
+            // Set Discount
+            GameEngine.SetHeroDiscount(1.0 - 0.02 * Properties.Settings.Default.dogcog);
+
             // Set Hotkey
             ghk = new GlobalHotkey(GlobalHotkey.Constants.CTRL + GlobalHotkey.Constants.SHIFT, Keys.D, this);
             if (!ghk.Register())
@@ -258,11 +259,16 @@ namespace clickerheroes.autoplayer
         /// <summary>
         /// Tries to use skills (and also toggle off progress mode, if it is on).
         /// Lots of room for optimization here.
+        /// Skill usage is not optimal, taken out until can figure them out.
+        /// This function is called every 2 seconds by a Timer in Main.Designer.cs 'useSkills'
+        /// Possibly change that and use a flag for optimal use of skills
+        /// Will also need to move toggle progress button, possibly to start of tasklist
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void useskills_Tick(object sender, EventArgs e)
         {
+            /*
             // Dark Ritual
             PlayerEngine.PressKey(Imports.VK_6);
 
@@ -276,7 +282,7 @@ namespace clickerheroes.autoplayer
             PlayerEngine.PressKey(Imports.VK_2);
             PlayerEngine.PressKey(Imports.VK_3);
             PlayerEngine.PressKey(Imports.VK_7);
-
+            */
             if (!GameEngine.IsProgressModeOn())
             {
                 PlayerEngine.AddAction(new Action(GameEngine.GetProgressButton(), 0));
