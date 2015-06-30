@@ -47,6 +47,7 @@ There are also some special commands you can use:
 |Auto clicking    | Autoclick monsters (when active, or tasklist turned off)     |
 |Log output       | Logs the output, and make screenshots in the logs folder     |
 |Dogcog level     | Level of your Dogcog ancient                                 |
+|Max Run Length	  | Max run duration in minutes - enter 0 for unlimited			 |
 
 ## Special Thanks
 This project is originally started by chthrowaway3 on reddit thread https://www.reddit.com/r/ClickerHeroes/comments/2otl3d/autoplayer_update/

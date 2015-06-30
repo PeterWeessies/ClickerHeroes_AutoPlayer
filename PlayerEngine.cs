@@ -605,9 +605,12 @@ namespace clickerheroes.autoplayer
             }
 
             // Check if the max run time has been reached
-            if (DateTime.Now > maxEndTime && nextTaskToPerform < Tasks.Count() - 3)
+            // Allow maxRunDuration to be set to 0 for unlimited time
+            // By setting nextTaskToPerform to an arbitary number, no way to guarantee anything will change
+            // Hopefully by restarting task list, the game will sort itself out
+            if (Properties.Settings.Default.maxRunDuration != 0 && DateTime.Now > maxEndTime)
             {
-                nextTaskToPerform = Tasks.Count() - 3;
+                nextTaskToPerform = 0;
             }
 
             if (nextTask is AscendTask)
