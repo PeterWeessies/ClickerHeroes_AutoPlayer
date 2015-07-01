@@ -29,7 +29,8 @@ namespace clickerheroes.autoplayer
 
             if (OnePointSevenToPowerArray == null)
             {
-                OnePointSevenToPowerArray = new double[4100];
+                //Size 4100 array will have problems with leveling a hero up to level 4100
+                OnePointSevenToPowerArray = new double[4201];
                 double opstop = 1E0;
                 for (int i = 0; i < OnePointSevenToPowerArray.Count(); i++)
                 {

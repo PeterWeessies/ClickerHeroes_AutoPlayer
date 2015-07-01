@@ -285,7 +285,8 @@ namespace clickerheroes.autoplayer
                 if (!skillFlag && (!skillTimer2.IsRunning || skillTimer2.ElapsedMilliseconds>900000))
                 {
                     //Stop skillTimer2
-                    skillTimer2.Stop();
+                    if(skillTimer2.IsRunning)
+                        skillTimer2.Stop();
 
                     //First run of Skill Usage - skillFlag = false
                     PlayerEngine.PressKey(Imports.VK_1);
@@ -312,7 +313,8 @@ namespace clickerheroes.autoplayer
                 else if(skillFlag && (skillTimer1.ElapsedMilliseconds>900000))
                 {
                     //Stop skillTimer1
-                    skillTimer1.Stop();
+                    if(skillTimer1.IsRunning)
+                        skillTimer1.Stop();
 
                     //Second run of Skill Usage - skillFlag = true
                     PlayerEngine.PressKey(Imports.VK_8);

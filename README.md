@@ -21,7 +21,7 @@ The main command in here is [hero id], [amount], [upgrades], [wait], [verify] fo
 | Variable  | Explanation                                                                                                       |
 | --------- | ----------------------------------------------------------------------------------------------------------------- |
 |[hero id]  | Id of the hero, cid = 0, treebeast = 1, ivan = 2 etc                                                              |
-|[amount]   | The minimum amount of levels you want to buy                                                                      |
+|[amount]   | The minimum amount of levels you want to buy (Capped at 4100)                                                     |
 |[upgrades] | -1 = buy no upgrades, 0 = buy 1st, 1 = buy 1st and 2nd etc                                                        |
 |[wait]     | Set to true if you want to wait untill you have enough money to buy all specified levels at once (default: false) |
 |[verify]   | Set verify to true if you want to verify the hero's level (will be slower but will prevent under-leveling heroes) |
