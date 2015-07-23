@@ -14,6 +14,8 @@ Or if you are running a Windows client (e.g. Steam)
 
 2. Press Detect. We'll ask Windows to find the right area for us.
 
+In order for Salvage to work, you must uncheck the option show relic found popups.
+
 ## Setting the task list
 The most important thing of this application is the task list. Using this task list you can specify what you want it to do.
 The main command in here is [hero id], [amount], [upgrades], [wait], [verify] for example 27, 100, 3, false, true
@@ -36,8 +38,10 @@ There are also some special commands you can use:
 |BuyAllUpgrades | Press the buy all upgrades button                           |
 |Ascend         | Ascend, click a candy and play idle                         |
 |ReloadBrowser  | Reload the browsers game window (F5) - Save to clipboard    |
-|MidasStart		| Perform a Midas Start - Not as useful anymore				  |
+|MidasStart		| Perform a Midas start 									  |
 |Salvage		| Salvages the current relic in junk pile so we can Ascend    |
+|ProgressOff	| Switches Progress mode off 								  |
+|ProgressOn		| Switches Progress mode on 								  |
 
 ## Other Options
 | Option          | Explanation                                                  |

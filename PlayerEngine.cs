@@ -107,6 +107,36 @@ namespace clickerheroes.autoplayer
     }
 
     /// <summary>
+    /// A special task, which will toggle Progress mode off
+    /// </summary>
+    class ToggleProgressOff : Task
+    {
+        public ToggleProgressOff() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will toggle Progress mode on
+    /// </summary>
+    class ToggleProgressOn : Task
+    {
+        public ToggleProgressOn() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will move zones forward 60ish zones
+    /// </summary>
+    class MoveZonesForward : Task
+    {
+        public MoveZonesForward() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
     /// Due to latency issues, the player may periodically over-level or under-level heroes (will happen when system is having
     /// perf issues and doesn't update the game or player fast enough). Over-leveling is generally not an issue -- it is just a waste
     /// of some money. However under-leveling can be very serious, if many levels are skipped. A verify task is a special type of task
@@ -222,6 +252,22 @@ namespace clickerheroes.autoplayer
 
                 if (str.Trim().Equals("MidasStart"))
                 {
+                    //Turn Progress mode off
+                    Tasks.Add(new ToggleProgressOff());
+
+                    //Level Natalia to 1
+                    Tasks.Add(new Task(10, 1, -1, false));
+
+                    //Move to zone 60ish
+                    Tasks.Add(new MoveZonesForward());
+
+                    //Level Midas to 100 and purchase Golden Clicks
+                    Tasks.Add(new Task(15, 100, 4, false));
+
+                    //Turn Progress mode on
+                    Tasks.Add(new ToggleProgressOn());
+
+                    //Activate Golden Clicks and click monster
                     Tasks.Add(new MidasStartTask());
                     continue;
                 }
@@ -229,6 +275,18 @@ namespace clickerheroes.autoplayer
                 if (str.Trim().Equals("Salvage"))
                 {
                     Tasks.Add(new SalvageRelicTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("ProgressOff"))
+                {
+                    Tasks.Add(new ToggleProgressOff());
+                    continue;
+                }
+
+                if (str.Trim().Equals("ProgressOn"))
+                {
+                    Tasks.Add(new ToggleProgressOn());
                     continue;
                 }
 
@@ -664,6 +722,34 @@ namespace clickerheroes.autoplayer
                 return "Salvaging Relics";
             }
 
+            if (nextTask is ToggleProgressOff)
+            {
+                if (GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                }
+                nextTaskToPerform++;
+                return "Turning Progress Mode Off";
+            }
+
+            if (nextTask is ToggleProgressOn)
+            {
+                if (!GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                }
+                nextTaskToPerform++;
+                return "Turning Progress Mode On";
+            }
+
+            if (nextTask is MoveZonesForward)
+            {
+                //Progress to level 60-64
+                AddAction(new Action(GameEngine.GetMoveZoneRightButtion(), 0), 425);
+                nextTaskToPerform++;
+                return "Advancing Zones";
+            }
+
             VerifyTask vt = nextTask as VerifyTask;
 
             string retStr = string.Empty;
@@ -793,10 +879,7 @@ namespace clickerheroes.autoplayer
         /// </summary>
         public static void MidasStart()
         {
-            //Perform a Midas Start:
-            //This buys a single level in Natalia, proceeds to level 60
-            //then levels up Midas to level 125, purchases Golden Clicks and then clicks mob a few times
-
+            //Perform a Midas Start
             //Activate Golden Clicks
             //PressKey(Imports.VK_5);
             if (GameEngine.WindowHandle != IntPtr.Zero)
