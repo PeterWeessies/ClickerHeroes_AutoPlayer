@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -578,6 +579,56 @@ namespace clickerheroes.autoplayer
         /// The location of the progress/farm mode button
         /// </summary>
         static private Point ProgressButton;
+
+        /// <summary>
+        /// The location of the option button
+        /// </summary>
+        static private Point OptionButton;
+
+        /// <summary>
+        /// The location of the save button
+        /// </summary>
+        static private Point SaveButton;
+
+        /// <summary>
+        /// The location of the close save screen
+        /// </summary>
+        static private Point CloseSaveScreenButton;
+
+        /// <summary>
+        /// The location of the close option screen
+        /// </summary>
+        static private Point CloseOptionScreenButton;
+
+        /// <summary>
+        /// The location of the Relic Tab Button
+        /// </summary>
+        static private Point RelicTabButton;
+
+        /// <summary>
+        /// The location of the Hero Tab Button
+        /// </summary>
+        static private Point HeroTabButton;
+
+        /// <summary>
+        /// The location of the Salvage Junk Pile Button
+        /// </summary>
+        static private Point SalvageJunkPileButton;
+
+        /// <summary>
+        /// The location of the Salvage Junk Pile Yes Button
+        /// </summary>
+        static private Point SalvageJunkPileYesButton;
+
+        /// <summary>
+        /// The location of the move zone left button
+        /// </summary>
+        static private Point MoveZoneLeftButton;
+
+        /// <summary>
+        /// The location of the move zone right button
+        /// </summary>
+        static private Point MoveZoneRightButton;
         #endregion
 
         #region GameEngineGetters
@@ -685,13 +736,64 @@ namespace clickerheroes.autoplayer
         {
             return Candies;
         }
+
+        public static Point GetOptionButton()
+        {
+            return OptionButton;
+        }
+
+        public static Point GetSaveButton()
+        {
+            return SaveButton;
+        }
+
+        public static Point GetCloseSaveScreenButton()
+        {
+            return CloseSaveScreenButton;
+        }
+
+        public static Point GetCloseOptionScreenButton()
+        {
+            return CloseOptionScreenButton;
+        }
+
+        public static Point GetRelicTabButton()
+        {
+            return RelicTabButton;
+        }
+
+        public static Point GetHeroTabButton()
+        {
+            return HeroTabButton;
+        }
+
+        public static Point GetSalvageJunkPileButton()
+        {
+            return SalvageJunkPileButton;
+        }
+
+        public static Point GetSalvageJunkPileYesButton()
+        {
+            return SalvageJunkPileYesButton;
+        }
+
+        public static Point GetMoveZoneLeftButton()
+        {
+            return MoveZoneLeftButton;
+        }
+
+        public static Point GetMoveZoneRightButtion()
+        {
+            return MoveZoneRightButton;
+        }
         #endregion
 
         /// <summary>
         /// Defines the game play area, and calculates all other offsets from that
         /// </summary>
         /// <param name="playableArea"></param>
-        public static void SetPlayableArea(Rectangle playableArea) {
+        public static void SetPlayableArea(Rectangle playableArea) 
+        {
             PlayableArea = playableArea;
 
             // Calculate all other coordinates
@@ -768,7 +870,53 @@ namespace clickerheroes.autoplayer
             CloseStartSceenButton.X = (int)(PlayableArea.Width * 0.824 + PlayableArea.Left);
             CloseStartSceenButton.Y = (int)(PlayableArea.Height * 0.12 + PlayableArea.Top);
 
+            OptionButton.X = (int)(PlayableArea.Width * 0.9799 + PlayableArea.Left);
+            OptionButton.Y = (int)(PlayableArea.Height * 0.0313 + PlayableArea.Top);
+
+            SaveButton.X = (int)(PlayableArea.Width * 0.2874 + PlayableArea.Left);
+            SaveButton.Y = (int)(PlayableArea.Height * 0.1270 + PlayableArea.Top);
+
+            CloseSaveScreenButton.X = (int)(PlayableArea.Width * 0.4403 + PlayableArea.Left);
+            CloseSaveScreenButton.Y = (int)(PlayableArea.Height * 0.4702 + PlayableArea.Top);
+
+            CloseOptionScreenButton.X = (int)(PlayableArea.Width * 0.7922 + PlayableArea.Left);
+            CloseOptionScreenButton.Y = (int)(PlayableArea.Height * 0.0470 + PlayableArea.Top);
+
+            RelicTabButton.X = (int)(PlayableArea.Width * 0.3298 + PlayableArea.Left);
+            RelicTabButton.Y = (int)(PlayableArea.Height * 0.1614 + PlayableArea.Top);
+
+            HeroTabButton.X = (int)(PlayableArea.Width * 0.0344 + PlayableArea.Left);
+            HeroTabButton.Y = (int)(PlayableArea.Height * 0.1614 + PlayableArea.Top);
+
+            SalvageJunkPileButton.X = (int)(PlayableArea.Width * 0.2460 + PlayableArea.Left);
+            SalvageJunkPileButton.Y = (int)(PlayableArea.Height * 0.6865 + PlayableArea.Top);
+
+            SalvageJunkPileYesButton.X = (int)(PlayableArea.Width * 0.4321 + PlayableArea.Left);
+            SalvageJunkPileYesButton.Y = (int)(PlayableArea.Height * 0.6317 + PlayableArea.Top);
+
+            MoveZoneLeftButton.X = (int)(PlayableArea.Width * 0.6907 + PlayableArea.Left);
+            MoveZoneLeftButton.Y = (int)(PlayableArea.Height * 0.0568 + PlayableArea.Top);
+
+            MoveZoneRightButton.X = (int)(PlayableArea.Width * 0.8044 + PlayableArea.Left);
+            MoveZoneRightButton.Y = (int)(PlayableArea.Height * 0.0568 + PlayableArea.Top);
+
+            //Check for Steam window
+            //Background functionality works with Steam window
+            //Still seems to be a few issues - if you move the window after detecting it,
+            //it throws an OutOfMemory error
             WindowHandle = Imports.FindWindow(null, "Clicker Heroes");
+            /*
+             * Not sure how to make this effective, while it would be nice to be able to have a chrome
+             * window in the background, not sure how to make it work effectivily
+             * Somewhat works but pulls the window to the foreground anytime an event is sent
+            //Check for Chrome tab if no steam window
+            //It finds the window correctly, you can still freely use the mouse but it still
+            //takes focus away from everything else
+            if(WindowHandle == IntPtr.Zero)
+            {
+                WindowHandle = FindChromeTab.ChromeWindow();
+            }
+             * */
         }
 
         /// <summary>
@@ -800,13 +948,8 @@ namespace clickerheroes.autoplayer
             foreach(Point candyCenter in Candies) {
                 Rectangle c = new Rectangle(candyCenter.X - CandyWidth / 2, candyCenter.Y - CandyHeight / 2, CandyWidth, CandyHeight);
 
-                using (Bitmap bitmap = new Bitmap(c.Width, c.Height))
+                using (Bitmap bitmap = GetImage(c))
                 {
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        g.CopyFromScreen(new Point(c.Left, c.Top), Point.Empty, c.Size);
-                    }
-
                     if (OCREngine.GetBlobDensity(bitmap, new Rectangle(0, 0, bitmap.Width - 1, bitmap.Height - 1), new Color[] {
                         // sandwich colors
                         Color.FromArgb(255, 170, 43, 0),
@@ -833,13 +976,8 @@ namespace clickerheroes.autoplayer
         public static bool IsProgressModeOn()
         {
             Rectangle c = new Rectangle(ProgressButton.X - CandyWidth / 2, ProgressButton.Y - CandyHeight / 2, CandyWidth, CandyHeight);
-            using (Bitmap bitmap = new Bitmap(c.Width, c.Height))
+            using (Bitmap bitmap = GetImage(c))
             {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    g.CopyFromScreen(new Point(c.Left, c.Top), Point.Empty, c.Size);
-                }
-
                 if (OCREngine.GetBlobDensity(bitmap, new Rectangle(0, 0, bitmap.Width- 1, bitmap.Height - 1), new Color[] {
                         Color.FromArgb(255, 255, 0, 0)
                         // put pumpkin pie thing here
@@ -852,6 +990,60 @@ namespace clickerheroes.autoplayer
             }
         }
 
+        //From neilmcguire on github; https://github.com/neilmcguire/ClickerHeroes_AutoPlayer/blob/Steam/GameEngine.cs
+        //Used with background window support
+        public static Bitmap GetImage(Rectangle rect)
+        {
+            if (Properties.Settings.Default.backgroundWindow && WindowHandle != IntPtr.Zero)
+            {
+                Imports.RECT rc;
+                Imports.GetWindowRect(WindowHandle, out rc);
+
+                Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);
+                Graphics gfxBmp = Graphics.FromImage(bmp);
+                IntPtr hdcBitmap = gfxBmp.GetHdc();
+                bool succeeded = Imports.PrintWindow(WindowHandle, hdcBitmap, 0);
+                gfxBmp.ReleaseHdc(hdcBitmap);
+                if (!succeeded)
+                {
+                    gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
+                }
+                IntPtr hRgn = Imports.CreateRectRgn(0, 0, 0, 0);
+                Imports.GetWindowRgn(WindowHandle, hRgn);
+                Region region = Region.FromHrgn(hRgn);
+                if (!region.IsEmpty(gfxBmp))
+                {
+                    gfxBmp.ExcludeClip(region);
+                    gfxBmp.Clear(Color.Transparent);
+                }
+                gfxBmp.Dispose();
+
+                var point = new Imports.POINT();
+                Imports.ScreenToClient(WindowHandle, ref point);
+
+                var windowPos = new Imports.RECT();
+                Imports.GetWindowRect(WindowHandle, out windowPos);
+                var origin = new Imports.POINT();
+                Imports.ClientToScreen(WindowHandle, ref origin);
+
+                rect.Offset(point.X, point.Y);
+                rect.Offset(-windowPos.Left, -windowPos.Top);
+                rect.Offset(origin.X, origin.Y);
+
+                var img = bmp.Clone(rect, PixelFormat.Format32bppArgb);
+                return img;
+            }
+            else
+            {
+                var bmp = new Bitmap(rect.Width, rect.Height);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.CopyFromScreen(new Point(rect.Left, rect.Top), Point.Empty, rect.Size);
+                }
+                return bmp;
+            }
+        }
+
         /// <summary>
         /// Tries to get the current amount of money from the screen. Is slow.
         /// </summary>
@@ -861,13 +1053,8 @@ namespace clickerheroes.autoplayer
             Size s = MoneyArea.Size;
             double money = -1;
 
-            using (Bitmap bitmap = new Bitmap(s.Width, s.Height))
+            using (Bitmap bitmap = GetImage(MoneyArea))
             {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    g.CopyFromScreen(new Point(MoneyArea.Left, MoneyArea.Top), Point.Empty, s);
-                }
-
                 IEnumerable<Line> lines = OCREngine.OCRBitmap(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height), new Color[] {
                     Color.FromArgb(255, 254, 254, 254),
                     Color.FromArgb(255, 254, 254, 253)
@@ -902,21 +1089,16 @@ namespace clickerheroes.autoplayer
         {
             Size s = HeroesArea.Size;
 
-            using (Bitmap bitmap = new Bitmap(s.Width, s.Height))
+            using (Bitmap bitmap = GetImage(HeroesArea))
             {
-                using (Graphics g = Graphics.FromImage(bitmap))
-                {
-                    g.CopyFromScreen(new Point(HeroesArea.Left, HeroesArea.Top), Point.Empty, s);
-                }
-
-                using (LockBitmap lb = new LockBitmap(bitmap))
-                {
-                    List<Line> lines = OCREngine.OCRBitmap(lb, new Rectangle(0, 0, bitmap.Width, bitmap.Height), new Color[] {
+                List<Line> lines = OCREngine.OCRBitmap(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height), new Color[] {
                         Color.FromArgb(255, 254, 254, 254),
                         Color.FromArgb(255, 254, 254, 253),
                         Color.FromArgb(255, 102, 51, 204), // purple for gilded heroes
                     });
 
+                using (LockBitmap lb = new LockBitmap(bitmap))
+                {
                     ParsedHeroes ph = GameEngine.ParseHeroes(lines, lb);
                     if (ph == null)
                     {

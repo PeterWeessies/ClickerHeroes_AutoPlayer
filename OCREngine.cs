@@ -77,7 +77,8 @@ namespace clickerheroes.autoplayer
         /// <param name="b">The bitmap containing this char</param>
         /// <param name="screentotalArea">The total area of the entire playscreen, used for OCR purposes</param>
         /// <param name="specialcharsenabled">True if "e" and "." can appear in the string </param>
-        public void DoOcr(LockBitmap b, int screentotalArea, bool specialcharsenabled = true) {
+        public void DoOcr(LockBitmap b, int screentotalArea, bool specialcharsenabled = true) 
+        {
             int totalArea = 0, lArea = 0, tArea = 0;
             int leftArea = 0, rightArea = 0;
             int groupsDownMiddleVertical = 0;
@@ -157,7 +158,8 @@ namespace clickerheroes.autoplayer
                     if (totalArea < 0.0003571 * screentotalArea && specialcharsenabled) //(double)rightArea / leftArea < 1.1) //1.1256)
                     {
                         guessedchar = 'e';
-                    } else if ((double)rightArea / leftArea > 1.6160) //1.6   1.6177
+                    } 
+                    else if ((double)rightArea / leftArea > 1.6565) //1.6   1.6177 - Still confuses '3' with '8' in money line
                     {
                         guessedchar = '3';
                     }
@@ -171,7 +173,7 @@ namespace clickerheroes.autoplayer
                     }
                     break;
                 case 1:
-                    if ((double)lArea / tArea > 1.6691) //1.6406 1.7420 1.6933
+                    if ((double)lArea / tArea > 1.7420) //1.6406 1.7420 1.6933
                     {
                         guessedchar = '6';
                     }

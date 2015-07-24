@@ -78,9 +78,60 @@ namespace clickerheroes.autoplayer
 
     /// <summary>
     /// A special task, which will reload
+    /// </summary>
     class ReloadBrowserTask : Task
     {
         public ReloadBrowserTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will perform a midas start
+    /// </summary>
+    class MidasStartTask : Task
+    {
+        public MidasStartTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will salvage any excess relics
+    /// </summary>
+    class SalvageRelicTask : Task
+    {
+        public SalvageRelicTask() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will toggle Progress mode off
+    /// </summary>
+    class ToggleProgressOff : Task
+    {
+        public ToggleProgressOff() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will toggle Progress mode on
+    /// </summary>
+    class ToggleProgressOn : Task
+    {
+        public ToggleProgressOn() : base(-1, -1, -1, false)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A special task, which will move zones forward 60ish zones
+    /// </summary>
+    class MoveZonesForward : Task
+    {
+        public MoveZonesForward() : base(-1, -1, -1, false)
         {
         }
     }
@@ -148,6 +199,12 @@ namespace clickerheroes.autoplayer
         private static bool autoClick = false;
         private static bool useSkils = false;
 
+        //Return value of useSkils
+        public static bool getUseSkils()
+        {
+            return useSkils;
+        }
+
         public static string ParseTasklist(string s)
         {
             Tasks.Clear();
@@ -190,6 +247,46 @@ namespace clickerheroes.autoplayer
                 if (str.Trim().Equals("ReloadBrowser"))
                 {
                     Tasks.Add(new ReloadBrowserTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("MidasStart"))
+                {
+                    //Turn Progress mode off
+                    Tasks.Add(new ToggleProgressOff());
+
+                    //Level Natalia to 1
+                    Tasks.Add(new Task(10, 1, -1, false));
+
+                    //Move to zone 60ish
+                    Tasks.Add(new MoveZonesForward());
+
+                    //Level Midas to 100 and purchase Golden Clicks
+                    Tasks.Add(new Task(15, 100, 4, false));
+
+                    //Turn Progress mode on
+                    Tasks.Add(new ToggleProgressOn());
+
+                    //Activate Golden Clicks and click monster
+                    Tasks.Add(new MidasStartTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("Salvage"))
+                {
+                    Tasks.Add(new SalvageRelicTask());
+                    continue;
+                }
+
+                if (str.Trim().Equals("ProgressOff"))
+                {
+                    Tasks.Add(new ToggleProgressOff());
+                    continue;
+                }
+
+                if (str.Trim().Equals("ProgressOn"))
+                {
+                    Tasks.Add(new ToggleProgressOn());
                     continue;
                 }
 
@@ -317,6 +414,16 @@ namespace clickerheroes.autoplayer
         /// <returns>True if and only if the hero is currently already at that level</returns>
         public static bool TryLevelHero(ParsedHeroes ph, int heroIndex, int desiredLevel, double currentMoney, bool wait)
         {
+            //If Active and using auto click mode, click candies
+            if (autoClick)
+            {
+                Point[] pts = GameEngine.GetCandyButtons();
+                foreach (Point p in pts)
+                {
+                    AddAction(new Action(p, Modifiers.NONE));
+                }
+            }
+            
             if (ph.FirstHeroIndex > heroIndex)
             {
                 AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 3);
@@ -509,7 +616,7 @@ namespace clickerheroes.autoplayer
         /// <param name="keycode"></param>
         public static void PressKey(uint keycode)
         {
-            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5)
+            if ((useSkils && Properties.Settings.Default.useTaskList) || (!Properties.Settings.Default.useTaskList && Properties.Settings.Default.autoSkill) || keycode == Imports.VK_F5 || keycode == Imports.VK_ESC)
             {
                 GameEngine.KeyPress(keycode);
             }
@@ -546,13 +653,22 @@ namespace clickerheroes.autoplayer
                     AddAction(new Action(p, Modifiers.NONE));
                 }
 
+                // Toggle Progress button
+                if (!GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                }
+
                 maxEndTime = DateTime.Now.AddMinutes(Properties.Settings.Default.maxRunDuration);
             }
 
             // Check if the max run time has been reached
-            if (DateTime.Now > maxEndTime && nextTaskToPerform < Tasks.Count() - 3)
+            // Allow maxRunDuration to be set to 0 for unlimited time
+            // By setting nextTaskToPerform to an arbitary number, no way to guarantee anything will change
+            // Hopefully by restarting task list, the game will sort itself out
+            if (Properties.Settings.Default.maxRunDuration != 0 && DateTime.Now > maxEndTime)
             {
-                nextTaskToPerform = Tasks.Count() - 3;
+                nextTaskToPerform = 0;
             }
 
             if (nextTask is AscendTask)
@@ -590,6 +706,48 @@ namespace clickerheroes.autoplayer
                 ReloadBrowser();
                 nextTaskToPerform++;
                 return "Reloading browser window";
+            }
+
+            if (nextTask is MidasStartTask)
+            {
+                MidasStart();
+                nextTaskToPerform++;
+                return "Performing Midas Start";
+            }
+
+            if (nextTask is SalvageRelicTask)
+            {
+                SalvageRelic();
+                nextTaskToPerform++;
+                return "Salvaging Relics";
+            }
+
+            if (nextTask is ToggleProgressOff)
+            {
+                if (GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                }
+                nextTaskToPerform++;
+                return "Turning Progress Mode Off";
+            }
+
+            if (nextTask is ToggleProgressOn)
+            {
+                if (!GameEngine.IsProgressModeOn())
+                {
+                    AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                }
+                nextTaskToPerform++;
+                return "Turning Progress Mode On";
+            }
+
+            if (nextTask is MoveZonesForward)
+            {
+                //Progress to level 60-64
+                AddAction(new Action(GameEngine.GetMoveZoneRightButtion(), 0), 425);
+                nextTaskToPerform++;
+                return "Advancing Zones";
             }
 
             VerifyTask vt = nextTask as VerifyTask;
@@ -653,13 +811,8 @@ namespace clickerheroes.autoplayer
 
             while (true)
             {
-                using (Bitmap bitmap = new Bitmap(c.Width, c.Height))
+                using (Bitmap bitmap = GameEngine.GetImage(c))
                 {
-                    using (Graphics g = Graphics.FromImage(bitmap))
-                    {
-                        g.CopyFromScreen(new Point(c.Left, c.Top), Point.Empty, c.Size);
-                    }
-
                     if (OCREngine.GetBlobDensity(bitmap, new Rectangle(0, 0, bitmap.Width - 1, bitmap.Height - 1), new Color[] {
                         Color.FromArgb(68, 215, 35)
                     }) > 0.10)
@@ -688,7 +841,7 @@ namespace clickerheroes.autoplayer
         }
 
         /// <summary>
-        /// Buy All upgrades
+        /// Refresh Browser - Force a save to clipboard before reloading
         /// </summary>
         public static void ReloadBrowser()
         {
@@ -698,16 +851,68 @@ namespace clickerheroes.autoplayer
             autoClick = false;
             useSkils = false;
 
+            //Force a save before reload
+            AddAction(new Action(GameEngine.GetOptionButton(), 0));
+            Thread.Sleep(1500);
+            AddAction(new Action(GameEngine.GetSaveButton(), 0));
+            Thread.Sleep(1500);
+            PressKey(Imports.VK_ESC);
+            //AddAction(new Action(GameEngine.GetCloseSaveScreenButton(), 0));
+            Thread.Sleep(1500);
+            //AddAction(new Action(GameEngine.GetCloseOptionScreenButton(), 0));
+            //Thread.Sleep(2500);
             AddAction(new Action(GameEngine.GetFocusBrowser(), 0), 3);
             Thread.Sleep(1000);
             PressKey(Imports.VK_F5);
             Thread.Sleep(10000);
             AddAction(new Action(GameEngine.GetStartButton(), 0), 3);
-            Thread.Sleep(2500);
+            Thread.Sleep(1500);
             AddAction(new Action(GameEngine.GetCloseStartScreenButton(), 0), 3);
 
             autoClick = rememberAutoClick;
             useSkils = rememberuseSkils;
+        }
+
+        /// <summary>
+        /// Perform a Midas Start - Still must manipulate task list, this just activates golden clicks and clicks the monster
+        /// Not entirely useful anymore.
+        /// </summary>
+        public static void MidasStart()
+        {
+            //Perform a Midas Start
+            //Activate Golden Clicks
+            //PressKey(Imports.VK_5);
+            if (GameEngine.WindowHandle != IntPtr.Zero)
+            {
+                Imports.PostMessage(GameEngine.WindowHandle, Imports.WM_KEYDOWN, (IntPtr)Imports.VK_5, IntPtr.Zero);
+                Imports.PostMessage(GameEngine.WindowHandle, Imports.WM_KEYUP, (IntPtr)Imports.VK_5, IntPtr.Zero);
+            }
+            else
+            {
+                Imports.keybd_event((byte)Imports.VK_5, 0, 0, 0);
+                Imports.keybd_event((byte)Imports.VK_5, 0, (int)Imports.KEYEVENTF_KEYUP, 0);
+            }
+
+            //Click Monster
+            AddAction(new Action(GameEngine.GetClickArea(), 0), 5);
+        }
+
+        /// <summary>
+        /// Salvage Relics so we can ascend
+        /// </summary>
+        public static void SalvageRelic()
+        {
+            //Switch to Relic tab
+            AddAction(new Action(GameEngine.GetRelicTabButton(), 0));
+
+            //Salvage Relic
+            AddAction(new Action(GameEngine.GetSalvageJunkPileButton(), 0));
+            Thread.Sleep(1000);
+            //Confirm Salvage
+            AddAction(new Action(GameEngine.GetSalvageJunkPileYesButton(), 0));
+            Thread.Sleep(1000);
+            //Switch back to hero tab
+            AddAction(new Action(GameEngine.GetHeroTabButton(), 0));
         }
 
     }

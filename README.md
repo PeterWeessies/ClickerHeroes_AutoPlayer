@@ -14,6 +14,8 @@ Or if you are running a Windows client (e.g. Steam)
 
 2. Press Detect. We'll ask Windows to find the right area for us.
 
+In order for Salvage to work, you must uncheck the option show relic found popups.
+
 ## Setting the task list
 The most important thing of this application is the task list. Using this task list you can specify what you want it to do.
 The main command in here is [hero id], [amount], [upgrades], [wait], [verify] for example 27, 100, 3, false, true
@@ -21,7 +23,7 @@ The main command in here is [hero id], [amount], [upgrades], [wait], [verify] fo
 | Variable  | Explanation                                                                                                       |
 | --------- | ----------------------------------------------------------------------------------------------------------------- |
 |[hero id]  | Id of the hero, cid = 0, treebeast = 1, ivan = 2 etc                                                              |
-|[amount]   | The minimum amount of levels you want to buy                                                                      |
+|[amount]   | The minimum amount of levels you want to buy (Capped at 4100)                                                     |
 |[upgrades] | -1 = buy no upgrades, 0 = buy 1st, 1 = buy 1st and 2nd etc                                                        |
 |[wait]     | Set to true if you want to wait untill you have enough money to buy all specified levels at once (default: false) |
 |[verify]   | Set verify to true if you want to verify the hero's level (will be slower but will prevent under-leveling heroes) |
@@ -35,7 +37,11 @@ There are also some special commands you can use:
 |Active         | Start playing active, autoclick and use skills              |
 |BuyAllUpgrades | Press the buy all upgrades button                           |
 |Ascend         | Ascend, click a candy and play idle                         |
-|ReloadBrowser  | Reload the browsers game window (F5)                        |
+|ReloadBrowser  | Reload the browsers game window (F5) - Save to clipboard    |
+|MidasStart		| Perform a Midas start 									  |
+|Salvage		| Salvages the current relic in junk pile so we can Ascend    |
+|ProgressOff	| Switches Progress mode off 								  |
+|ProgressOn		| Switches Progress mode on 								  |
 
 ## Other Options
 | Option          | Explanation                                                  |
@@ -45,6 +51,7 @@ There are also some special commands you can use:
 |Auto clicking    | Autoclick monsters (when active, or tasklist turned off)     |
 |Log output       | Logs the output, and make screenshots in the logs folder     |
 |Dogcog level     | Level of your Dogcog ancient                                 |
+|Max Run Length	  | Max run duration in minutes - enter 0 for unlimited			 |
 
 ## Special Thanks
 This project is originally started by chthrowaway3 on reddit thread https://www.reddit.com/r/ClickerHeroes/comments/2otl3d/autoplayer_update/

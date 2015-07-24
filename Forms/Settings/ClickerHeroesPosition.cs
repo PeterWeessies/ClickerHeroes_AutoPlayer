@@ -207,6 +207,8 @@ namespace clickerheroes.autoplayer
             TopRightLbl.ForeColor = Color.Black;
             BotLeftLbl.ForeColor = Color.Black;
             BotRightLbl.ForeColor = Color.Black;
+
+            checkBox1.Checked = Properties.Settings.Default.backgroundWindow;
         }
 
         /// <summary>
@@ -250,5 +252,12 @@ namespace clickerheroes.autoplayer
             getSettings();
             MessageBox.Show("Can't find game, please try again");
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.backgroundWindow = checkBox1.Checked;
+            Properties.Settings.Default.Save();
+        }
+
     }
 }
