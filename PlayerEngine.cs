@@ -328,7 +328,12 @@ namespace clickerheroes.autoplayer
                 return false;
             }
 
+            // Check for stepping out of bounds (happens when part of the view is blocked while attempting to do certain actions)
             int adjustedIndex = heroIndex - ph.FirstHeroIndex;
+            if (adjustedIndex >= ph.HeroStats.Count )
+            {
+                return false;
+            }
             HeroStats hs = ph.HeroStats[adjustedIndex];
             if (hs.Level == -1)
             {
