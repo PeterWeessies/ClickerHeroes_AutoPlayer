@@ -568,6 +568,7 @@ namespace clickerheroes.autoplayer
             if (nextTask is AscendTask)
             {
                 Ascend(ph, curMoney);
+                GameEngine.WipeLevelCache();
                 nextTaskToPerform = 0;
                 return "Ascending";
             }

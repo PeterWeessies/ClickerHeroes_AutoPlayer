@@ -316,6 +316,11 @@ namespace clickerheroes.autoplayer
             this.HeroList = HeroList;
             createCache();
         }
+
+        public void WipeCachedLevels()
+        {
+            createCache();
+        }
     }
 
     /// <summary>
@@ -532,6 +537,11 @@ namespace clickerheroes.autoplayer
         public static int GetCachedLevel(int heroIndex)
         {
             return LevelCache.getCachedLevel(heroIndex);
+        }
+
+        public static void WipeLevelCache()
+        {
+            LevelCache.WipeCachedLevels();
         }
 
         #region ScreenOffsets
