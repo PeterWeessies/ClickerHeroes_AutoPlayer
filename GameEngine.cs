@@ -266,25 +266,25 @@ namespace clickerheroes.autoplayer
     /// </summary>
     public class CachedHeroLevels
     {
-        private Tuple<int, int>[] CachedHeroLevelData;
+        private int[] CachedHeroLevelData;
         private Hero[] HeroList;
 
-        private Tuple<int, int>[] createCache()
+        private int[] createCache()
         {
             Debug.Assert(HeroList != null);
             Debug.Assert(HeroList.Length > 0);
 
-            CachedHeroLevelData = new Tuple<int, int>[HeroList.Length];
+            CachedHeroLevelData = new int[HeroList.Length];
             int heroID = 0;
             foreach (Hero hero in HeroList) {
-                CachedHeroLevelData[heroID] = new Tuple<int, int>(heroID, 0);
+                CachedHeroLevelData[heroID] = 0;
                 heroID++;
             }
 
             return CachedHeroLevelData;
         }
 
-        private Tuple<int, int>[] getCachedHeroLevelData()
+        private int[] getCachedHeroLevelData()
         {
             if (CachedHeroLevelData == null) {
                 CachedHeroLevelData = createCache();
@@ -292,9 +292,27 @@ namespace clickerheroes.autoplayer
             return CachedHeroLevelData;
         }
 
+        private void setHeroLevel(int heroID, int heroLevel)
+        {
+            if (CachedHeroLevelData == null)
+            {
+                CachedHeroLevelData = createCache();
+            }
+
+            if (heroLevel > 0)
+            {
+                CachedHeroLevelData[heroID] = heroLevel;
+            }
+        }
+
         public void updateCachedLevels(ParsedHeroes ph)
         {
-
+            for (int i = 0; i < ph.HeroStats.Count; i++)
+            {
+                int heroID = ph.FirstHeroIndex + i;
+                int heroLevel = ph.HeroStats[i].Level;
+                setHeroLevel(heroID, heroLevel);
+            }
         }
 
         public CachedHeroLevels(Hero[] HeroList)
@@ -511,6 +529,8 @@ namespace clickerheroes.autoplayer
                 new Upgrade("Alter time", 100, 8E162, heroDmgMultiplier: 2.5) }),
         };
         #endregion
+
+        public static CachedHeroLevels LevelCache = new CachedHeroLevels(HeroList);
 
         #region ScreenOffsets
         /// <summary>
@@ -869,7 +889,7 @@ namespace clickerheroes.autoplayer
         }
 
         /// <summary>
-        /// Vallidates the currently set playable area
+        /// Validates the currently set playable area
         /// </summary>
         public static bool ValidatePlayableArea()
         {
@@ -1020,6 +1040,10 @@ namespace clickerheroes.autoplayer
                     {
                         return null;
                     }
+
+
+                    // TODO: Handle updating hero level cache
+                    LevelCache.updateCachedLevels(ph);
 
                     foreach (HeroStats hs in ph.HeroStats)
                     {
