@@ -309,6 +309,8 @@ namespace clickerheroes.autoplayer
     class GameEngine
     {
         public static IntPtr WindowHandle;
+
+        #region HeroDefinitions
         /// <summary>
         ///  The heroes!
         /// </summary>
@@ -508,6 +510,7 @@ namespace clickerheroes.autoplayer
                 new Upgrade("Time Travel", 50, 1E162, heroDmgMultiplier: 2), 
                 new Upgrade("Alter time", 100, 8E162, heroDmgMultiplier: 2.5) }),
         };
+        #endregion
 
         #region ScreenOffsets
         /// <summary>
