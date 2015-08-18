@@ -262,6 +262,48 @@ namespace clickerheroes.autoplayer
     }
 
     /// <summary>
+    /// Contains the last known levels of heroes
+    /// </summary>
+    public class CachedHeroLevels
+    {
+        private Tuple<int, int>[] CachedHeroLevelData;
+        private Hero[] HeroList;
+
+        private Tuple<int, int>[] createCache()
+        {
+            Debug.Assert(HeroList != null);
+            Debug.Assert(HeroList.Length > 0);
+
+            CachedHeroLevelData = new Tuple<int, int>[HeroList.Length];
+            int heroID = 0;
+            foreach (Hero hero in HeroList) {
+                CachedHeroLevelData[heroID] = new Tuple<int, int>(heroID, 0);
+                heroID++;
+            }
+
+            return CachedHeroLevelData;
+        }
+
+        private Tuple<int, int>[] getCachedHeroLevelData()
+        {
+            if (CachedHeroLevelData == null) {
+                CachedHeroLevelData = createCache();
+            }
+            return CachedHeroLevelData;
+        }
+
+        public void updateCachedLevels(ParsedHeroes ph)
+        {
+
+        }
+
+        public CachedHeroLevels(Hero[] HeroList)
+        {
+            this.HeroList = HeroList;
+        }
+    }
+
+    /// <summary>
     /// Contains static methods to obtain various states of the game, primarily current money and current heroes.
     /// </summary>
     class GameEngine
