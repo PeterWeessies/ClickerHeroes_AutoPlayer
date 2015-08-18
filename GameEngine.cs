@@ -284,25 +284,21 @@ namespace clickerheroes.autoplayer
             return CachedHeroLevelData;
         }
 
-        private int[] getCachedHeroLevelData()
-        {
-            if (CachedHeroLevelData == null) {
-                CachedHeroLevelData = createCache();
-            }
-            return CachedHeroLevelData;
-        }
-
         private void setHeroLevel(int heroID, int heroLevel)
         {
-            if (CachedHeroLevelData == null)
-            {
-                CachedHeroLevelData = createCache();
-            }
+            Debug.Assert(CachedHeroLevelData != null);
 
             if (heroLevel > 0)
             {
                 CachedHeroLevelData[heroID] = heroLevel;
             }
+        }
+
+        public int getCachedLevel(int heroID)
+        {
+            Debug.Assert(CachedHeroLevelData != null);
+            Debug.Assert(heroID < CachedHeroLevelData.Length);
+            return CachedHeroLevelData[heroID];
         }
 
         public void updateCachedLevels(ParsedHeroes ph)
@@ -318,6 +314,7 @@ namespace clickerheroes.autoplayer
         public CachedHeroLevels(Hero[] HeroList)
         {
             this.HeroList = HeroList;
+            createCache();
         }
     }
 
@@ -531,6 +528,11 @@ namespace clickerheroes.autoplayer
         #endregion
 
         public static CachedHeroLevels LevelCache = new CachedHeroLevels(HeroList);
+
+        public static int GetCachedLevel(int heroIndex)
+        {
+            return LevelCache.getCachedLevel(heroIndex);
+        }
 
         #region ScreenOffsets
         /// <summary>

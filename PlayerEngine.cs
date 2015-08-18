@@ -317,6 +317,11 @@ namespace clickerheroes.autoplayer
         /// <returns>True if and only if the hero is currently already at that level</returns>
         public static bool TryLevelHero(ParsedHeroes ph, int heroIndex, int desiredLevel, double currentMoney, bool wait)
         {
+            if (GameEngine.GetCachedLevel(heroIndex) >= desiredLevel)
+            {
+                return true;
+            }
+
             if (ph.FirstHeroIndex > heroIndex)
             {
                 AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 3);
