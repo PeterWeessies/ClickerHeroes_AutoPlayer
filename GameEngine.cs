@@ -1053,8 +1053,7 @@ namespace clickerheroes.autoplayer
                         return null;
                     }
 
-
-                    // TODO: Handle updating hero level cache
+                    // Handle updating hero level cache
                     LevelCache.updateCachedLevels(ph);
 
                     foreach (HeroStats hs in ph.HeroStats)
