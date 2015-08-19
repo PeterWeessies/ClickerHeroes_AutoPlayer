@@ -262,11 +262,75 @@ namespace clickerheroes.autoplayer
     }
 
     /// <summary>
+    /// Contains the last known levels of heroes
+    /// </summary>
+    public class CachedHeroLevels
+    {
+        private int[] CachedHeroLevelData;
+        private Hero[] HeroList;
+
+        private int[] createCache()
+        {
+            Debug.Assert(HeroList != null);
+            Debug.Assert(HeroList.Length > 0);
+
+            CachedHeroLevelData = new int[HeroList.Length];
+            int heroID = 0;
+            foreach (Hero hero in HeroList) {
+                CachedHeroLevelData[heroID] = 0;
+                heroID++;
+            }
+
+            return CachedHeroLevelData;
+        }
+
+        private void setHeroLevel(int heroID, int heroLevel)
+        {
+            Debug.Assert(CachedHeroLevelData != null);
+
+            if (heroLevel > 0)
+            {
+                CachedHeroLevelData[heroID] = heroLevel;
+            }
+        }
+
+        public int getCachedLevel(int heroID)
+        {
+            Debug.Assert(CachedHeroLevelData != null);
+            Debug.Assert(heroID < CachedHeroLevelData.Length);
+            return CachedHeroLevelData[heroID];
+        }
+
+        public void updateCachedLevels(ParsedHeroes ph)
+        {
+            for (int i = 0; i < ph.HeroStats.Count; i++)
+            {
+                int heroID = ph.FirstHeroIndex + i;
+                int heroLevel = ph.HeroStats[i].Level;
+                setHeroLevel(heroID, heroLevel);
+            }
+        }
+
+        public CachedHeroLevels(Hero[] HeroList)
+        {
+            this.HeroList = HeroList;
+            createCache();
+        }
+
+        public void WipeCachedLevels()
+        {
+            createCache();
+        }
+    }
+
+    /// <summary>
     /// Contains static methods to obtain various states of the game, primarily current money and current heroes.
     /// </summary>
     class GameEngine
     {
         public static IntPtr WindowHandle;
+
+        #region HeroDefinitions
         /// <summary>
         ///  The heroes!
         /// </summary>
@@ -466,6 +530,19 @@ namespace clickerheroes.autoplayer
                 new Upgrade("Time Travel", 50, 1E162, heroDmgMultiplier: 2), 
                 new Upgrade("Alter time", 100, 8E162, heroDmgMultiplier: 2.5) }),
         };
+        #endregion
+
+        public static CachedHeroLevels LevelCache = new CachedHeroLevels(HeroList);
+
+        public static int GetCachedLevel(int heroIndex)
+        {
+            return LevelCache.getCachedLevel(heroIndex);
+        }
+
+        public static void WipeLevelCache()
+        {
+            LevelCache.WipeCachedLevels();
+        }
 
         #region ScreenOffsets
         /// <summary>
@@ -477,6 +554,26 @@ namespace clickerheroes.autoplayer
         /// The area which contains the current money
         /// </summary>
         static private Rectangle MoneyArea;
+
+        /// <summary>
+        /// The point to click to view relics
+        /// </summary>
+        static private Point RelicButton;
+
+        /// <summary>
+        /// The point to click to view hero tab
+        /// </summary>
+        static private Point HeroButton;
+
+        /// <summary>
+        /// The point to click to start a relic salvage
+        /// </summary>
+        static private Point SalvageButton;
+
+        /// <summary>
+        /// The point to click to confirm a relic salvage
+        /// </summary>
+        static private Point SalvageConfirmButton;
 
         /// <summary>
         /// The area which contains all visible heroes
@@ -589,6 +686,26 @@ namespace clickerheroes.autoplayer
         public static Rectangle GetMoneyArea()
         {
             return MoneyArea;
+        }
+
+        public static Point GetRelicButton()
+        {
+            return RelicButton;
+        }
+
+        public static Point GetHeroButton()
+        {
+            return HeroButton;
+        }
+
+        public static Point GetSalvageButton()
+        {
+            return SalvageButton;
+        }
+
+        public static Point GetSalvageConfirmButton()
+        {
+            return SalvageConfirmButton;
         }
 
         public static Rectangle GetHeroesArea()
@@ -750,8 +867,20 @@ namespace clickerheroes.autoplayer
             CandyWidth = (int)(PlayableArea.Width * 0.03516);
             CandyHeight = (int)(PlayableArea.Height * 0.05);
 
+            RelicButton.X = (int)(PlayableArea.Width * .3277 + PlayableArea.Left);
+            RelicButton.Y = (int)(PlayableArea.Height * 0.1582 + playableArea.Top);
+
+            HeroButton.X = (int)(PlayableArea.Width * 0.0328 + PlayableArea.Left);
+            HeroButton.Y = (int)(PlayableArea.Height * 0.1582 + playableArea.Top);
+
+            SalvageButton.X = (int)(PlayableArea.Width * 0.2447 + PlayableArea.Left);
+            SalvageButton.Y = (int)(PlayableArea.Height * 0.6899 + PlayableArea.Top);
+
+            SalvageConfirmButton.X = (int)(PlayableArea.Width * 0.4337 + PlayableArea.Left);
+            SalvageConfirmButton.Y = (int)(PlayableArea.Height * 0.6345 + PlayableArea.Top);
+
             ProgressButton.X = (int)(PlayableArea.Width * 0.9799 + PlayableArea.Left);
-            ProgressButton.Y = (int)(PlayableArea.Height * 0.3899 + PlayableArea.Top);
+            ProgressButton.Y = (int)(PlayableArea.Height * 0.3877 + PlayableArea.Top);
 
             AscendButton.X = (int)(PlayableArea.Width * 0.4344 + PlayableArea.Left);
             AscendButton.Y = (int)(PlayableArea.Height * 0.6654 + PlayableArea.Top);
@@ -772,7 +901,7 @@ namespace clickerheroes.autoplayer
         }
 
         /// <summary>
-        /// Vallidates the currently set playable area
+        /// Validates the currently set playable area
         /// </summary>
         public static bool ValidatePlayableArea()
         {
@@ -860,7 +989,8 @@ namespace clickerheroes.autoplayer
         {
             Size s = MoneyArea.Size;
             double money = -1;
-
+            Console.WriteLine(s.Width);
+            Console.WriteLine(s.Height);
             using (Bitmap bitmap = new Bitmap(s.Width, s.Height))
             {
                 using (Graphics g = Graphics.FromImage(bitmap))
@@ -922,6 +1052,9 @@ namespace clickerheroes.autoplayer
                     {
                         return null;
                     }
+
+                    // Handle updating hero level cache
+                    LevelCache.updateCachedLevels(ph);
 
                     foreach (HeroStats hs in ph.HeroStats)
                     {

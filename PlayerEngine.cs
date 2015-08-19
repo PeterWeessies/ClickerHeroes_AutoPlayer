@@ -317,6 +317,11 @@ namespace clickerheroes.autoplayer
         /// <returns>True if and only if the hero is currently already at that level</returns>
         public static bool TryLevelHero(ParsedHeroes ph, int heroIndex, int desiredLevel, double currentMoney, bool wait)
         {
+            if (GameEngine.GetCachedLevel(heroIndex) >= desiredLevel)
+            {
+                return true;
+            }
+
             if (ph.FirstHeroIndex > heroIndex)
             {
                 AddAction(new Action(GameEngine.GetScrollbarUpPoint(), 0), 3);
@@ -328,7 +333,12 @@ namespace clickerheroes.autoplayer
                 return false;
             }
 
+            // Check for stepping out of bounds (happens when part of the view is blocked while attempting to do certain actions)
             int adjustedIndex = heroIndex - ph.FirstHeroIndex;
+            if (adjustedIndex >= ph.HeroStats.Count )
+            {
+                return false;
+            }
             HeroStats hs = ph.HeroStats[adjustedIndex];
             if (hs.Level == -1)
             {
@@ -558,6 +568,7 @@ namespace clickerheroes.autoplayer
             if (nextTask is AscendTask)
             {
                 Ascend(ph, curMoney);
+                GameEngine.WipeLevelCache();
                 nextTaskToPerform = 0;
                 return "Ascending";
             }
@@ -637,6 +648,26 @@ namespace clickerheroes.autoplayer
             return TryNextTask(ph, curMoney);
         }
 
+
+        public static void TrashRelics()
+        {
+            Point RelicButton = GameEngine.GetRelicButton();
+            Point HeroButton = GameEngine.GetHeroButton();
+            Point SalvageButton = GameEngine.GetSalvageButton();
+            Point SalvageConfirmationButton = GameEngine.GetSalvageConfirmButton();
+            Console.WriteLine("Clicking relic button at " + RelicButton.X + " , " + RelicButton.Y);
+            AddAction(new Action(RelicButton, 0));
+            Thread.Sleep(500);
+            Console.WriteLine("Clicking salvage button at " + SalvageButton.X + " , " + SalvageButton.Y);
+            AddAction(new Action(SalvageButton, 0));
+            Thread.Sleep(500);
+            Console.WriteLine("Clicking salvage confirmation button at " + SalvageConfirmationButton.X + " , " + SalvageConfirmationButton.Y);
+            AddAction(new Action(SalvageConfirmationButton, 0));
+            Thread.Sleep(500);
+            Console.WriteLine("Clicking hero button at " + HeroButton.X + " , " + HeroButton.Y);
+            AddAction(new Action(HeroButton, 0));
+        }
+
         /// <summary>
         /// Don't leave this method until after we've ascended
         /// </summary>
@@ -644,6 +675,7 @@ namespace clickerheroes.autoplayer
         /// <param name="curMoney"></param>
         public static void Ascend(ParsedHeroes ph, double curMoney)
         {
+            TrashRelics();
             Point AscendButton = GameEngine.GetAscendButton();
 
             // use candy height and width cuz it's close enough

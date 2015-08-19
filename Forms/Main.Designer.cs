@@ -57,7 +57,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(11, 295);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(305, 128);
+            this.button1.Size = new System.Drawing.Size(460, 128);
             this.button1.TabIndex = 0;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,7 +76,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(89, 52);
+            this.label8.Location = new System.Drawing.Point(89, 53);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 9;
@@ -85,7 +85,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(90, 78);
+            this.label9.Location = new System.Drawing.Point(90, 77);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(24, 13);
             this.label9.TabIndex = 10;
@@ -93,17 +93,19 @@
             // 
             // curHeroesTxt
             // 
+            this.curHeroesTxt.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.curHeroesTxt.Location = new System.Drawing.Point(11, 166);
             this.curHeroesTxt.Multiline = true;
             this.curHeroesTxt.Name = "curHeroesTxt";
             this.curHeroesTxt.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.curHeroesTxt.Size = new System.Drawing.Size(305, 123);
+            this.curHeroesTxt.Size = new System.Drawing.Size(460, 123);
             this.curHeroesTxt.TabIndex = 11;
+            this.curHeroesTxt.WordWrap = false;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 52);
+            this.label11.Location = new System.Drawing.Point(8, 53);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(60, 13);
             this.label11.TabIndex = 13;
@@ -112,7 +114,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 78);
+            this.label12.Location = new System.Drawing.Point(8, 77);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(76, 13);
             this.label12.TabIndex = 14;
@@ -154,7 +156,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 102);
+            this.label13.Location = new System.Drawing.Point(8, 101);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(66, 13);
             this.label13.TabIndex = 17;
@@ -163,7 +165,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(90, 102);
+            this.label14.Location = new System.Drawing.Point(90, 101);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(24, 13);
             this.label14.TabIndex = 18;
@@ -185,7 +187,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(331, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(483, 24);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -224,7 +226,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 435);
+            this.ClientSize = new System.Drawing.Size(483, 435);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);

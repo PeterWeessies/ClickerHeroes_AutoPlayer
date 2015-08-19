@@ -229,6 +229,9 @@ namespace clickerheroes.autoplayer
                 if (b)
                 {
                     // Set the playable area and update labels
+                    //x y is supposed to be the top corner
+                    Console.WriteLine("point.x: " + point.X); //top left corner x
+                    Console.WriteLine("point.y: " + point.Y); //top left corner y
                     GameEngine.SetPlayableArea(new Rectangle(point.X, point.Y, rect.Right - rect.Left, rect.Bottom - rect.Top));
 
                     Point clickPoint = GameEngine.GetClickArea();
@@ -236,12 +239,13 @@ namespace clickerheroes.autoplayer
 
                     if (GameEngine.ValidatePlayableArea())
                     {
-                        Properties.Settings.Default.top = point.X;
-                        Properties.Settings.Default.bot = point.Y;
-                        Properties.Settings.Default.left = rect.Left;
-                        Properties.Settings.Default.right = rect.Right;
+                        
+                        Properties.Settings.Default.top = point.Y;
+                        Properties.Settings.Default.bot = rect.Height + point.Y;
+                        Properties.Settings.Default.left = point.X;
+                        Properties.Settings.Default.right = rect.Width + point.X;
                         Properties.Settings.Default.Save();
-
+                        Console.WriteLine("We think top is " + Properties.Settings.Default.top + " bottom is " + Properties.Settings.Default.bot + " left is " + Properties.Settings.Default.left + " right is " + Properties.Settings.Default.right);
                         MessageBox.Show("Settings saved!");
                         return;
                     }

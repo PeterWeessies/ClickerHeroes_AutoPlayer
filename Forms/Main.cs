@@ -138,7 +138,7 @@ namespace clickerheroes.autoplayer
                 {
                     foreach (HeroStats ss in ph.HeroStats)
                     {
-                        sb.AppendLine(string.Format("{0}: Lvl {1} Upgrades {2}", ss.Hero.Name, ss.Level, Convert.ToString(ss.UpgradeBitfield, 2)));
+                        sb.AppendLine(string.Format("Level {1} :{0} - Upgrades {2}", ss.Hero.Name.PadRight(30,'.'), Convert.ToString(ss.Level).PadLeft(6,' '), Convert.ToString(ss.UpgradeBitfield, 2)));
                     }
                 }
                 curHeroesTxt.Text = sb.ToString();
@@ -280,6 +280,7 @@ namespace clickerheroes.autoplayer
             if (!GameEngine.IsProgressModeOn())
             {
                 PlayerEngine.AddAction(new Action(GameEngine.GetProgressButton(), 0));
+                //PlayerEngine.PressKey(Imports.VK_A);
             }
         }
 
