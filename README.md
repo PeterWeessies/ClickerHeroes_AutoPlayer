@@ -48,3 +48,13 @@ There are also some special commands you can use:
 
 ## Special Thanks
 This project is originally started by chthrowaway3 on reddit thread https://www.reddit.com/r/ClickerHeroes/comments/2otl3d/autoplayer_update/
+
+
+## Sources
+This project was forked from:
+https://github.com/PeterWeessies/ClickerHeroes_AutoPlayer
+
+And was updated to implement the changes found on:
+https://github.com/Lutzy/CHAutoPlayer
+
+Then I added a couple of features like the caching of hero levels and updating the  styling of the dialog.
